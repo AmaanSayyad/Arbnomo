@@ -43,34 +43,6 @@ function WalletSync() {
     preferredNetwork
   } = useOverflowStore();
 
-  // Restoration Effect for Stellar
-  const attemptedRestore = useRef(false);
-  useEffect(() => {
-    if (preferredNetwork === 'XLM' && !attemptedRestore.current) {
-      attemptedRestore.current = true;
-      const checkStellar = async () => {
-        // Check if already connected in store to avoid redundant work
-        if (useOverflowStore.getState().address && useOverflowStore.getState().network === 'XLM') return;
-
-        try {
-          const { restoreSession } = await import('@/lib/stellar/wallet-kit');
-          const restoredAddress = await restoreSession();
-          if (restoredAddress) {
-            setAddress(restoredAddress);
-            setIsConnected(true);
-            setNetwork('XLM');
-            refreshWalletBalance();
-            fetchProfile(restoredAddress);
-          }
-        } catch (e) {
-          console.error("Stellar restore failed", e);
-        }
-      };
-      checkStellar();
-    }
-  }, [preferredNetwork, address, setAddress, setIsConnected, setNetwork, refreshWalletBalance, fetchProfile]);
-
-
   // Main Sync Effect
   useEffect(() => {
     // 0. Check Demo Mode (Priority)
@@ -227,10 +199,6 @@ export function Providers({ children }: { children: React.ReactNode }) {
     const initializeApp = async () => {
       try {
         const { updateAllPrices, loadTargetCells, startGlobalPriceFeed } = useOverflowStore.getState();
-
-        // Initialize Stellar Wallet Kit
-        const { initWalletKit } = await import('@/lib/stellar/wallet-kit');
-        await initWalletKit().catch(console.error);
 
         await loadTargetCells().catch(console.error);
         const stopPriceFeed = startGlobalPriceFeed(updateAllPrices);

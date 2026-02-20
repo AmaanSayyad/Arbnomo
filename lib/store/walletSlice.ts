@@ -125,9 +125,7 @@ export const createWalletSlice: StateCreator<WalletState> = (set, get) => ({
         const bal = await getUSDCBalance(address);
         set({ walletBalance: bal });
       } else if (network === 'XLM') {
-        const { getXLMBalance } = await import('@/lib/stellar/client');
-        const bal = await getXLMBalance(address);
-        set({ walletBalance: bal });
+        set({ walletBalance: 0 });
       } else if (network === 'XTZ') {
         const { getXTZBalance } = await import('@/lib/tezos/client');
         const bal = await getXTZBalance(address);

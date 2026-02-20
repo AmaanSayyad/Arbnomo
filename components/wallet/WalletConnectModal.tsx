@@ -46,17 +46,7 @@ export const WalletConnectModal: React.FC = () => {
         setOpen(false);
     };
 
-    const handleStellarConnect = async () => {
-        const { openWalletModal } = await import('@/lib/stellar/wallet-kit');
-        const address = await openWalletModal();
-        if (address) {
-            setPreferredNetwork('XLM');
-            useOverflowStore.getState().setNetwork('XLM');
-            useOverflowStore.getState().setAddress(address);
-            useOverflowStore.getState().setIsConnected(true);
-            // Fetch Stellar mainnet XLM balance
-            useOverflowStore.getState().refreshWalletBalance();
-        }
+    const handleStellarConnect = () => {
         setOpen(false);
     };
 

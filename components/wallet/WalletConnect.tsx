@@ -23,7 +23,7 @@ export const WalletConnect: React.FC = () => {
     else if (network === 'SOL') disconnectSolana();
     else if (network === 'SUI') disconnectSui();
     else if (network === 'XLM') {
-      import('@/lib/stellar/wallet-kit').then(m => m.disconnectWallet());
+      // No Stellar SDK disconnect (Arbitrum Sepolia only)
     }
     // XTZ and NEAR don't need special SDK disconnect
 
