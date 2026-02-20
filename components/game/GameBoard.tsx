@@ -13,7 +13,7 @@ import { ethers } from 'ethers';
 import { useToast } from '@/lib/hooks/useToast';
 import { useSendTransaction, useSwitchChain, useAccount, usePublicClient } from 'wagmi';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Key, ShieldCheck, Loader2, Wallet } from 'lucide-react';
+import { Wallet } from 'lucide-react';
 import { useSignAndExecuteTransaction, useCurrentAccount } from '@mysten/dapp-kit';
 
 
@@ -24,6 +24,8 @@ export const GameBoard: React.FC = () => {
     network,
     walletBalance,
     houseBalance,
+    demoBalance,
+    accountType,
     bets,
     gameMode,
     setGameMode,
@@ -45,8 +47,6 @@ export const GameBoard: React.FC = () => {
     setActiveTab,
     userTier,
     refreshWalletBalance,
-    accessCode,
-    fetchProfile,
     selectedCurrency,
     setSelectedCurrency
   } = useStore();
@@ -70,17 +70,15 @@ export const GameBoard: React.FC = () => {
   const suiAccount = useCurrentAccount();
 
   const toast = useToast();
-  const [accessInput, setAccessInput] = useState('');
-  const [isValidating, setIsValidating] = useState(false);
-  const [accessError, setAccessError] = useState<string | null>(null);
 
   // Unified balance and currency
   const currencySymbol = network === 'SOL' ? (selectedCurrency || 'SOL') : network === 'SUI' ? 'USDC' : network === 'ARB' ? 'ETH' : network === 'XLM' ? 'XLM' : network === 'XTZ' ? 'XTZ' : network === 'NEAR' ? 'NEAR' : 'BNB';
   const blitzEntryFee = 0.001;
 
-  // Connection and Authorization status
+  // Connection and Authorization status (access code requirement removed)
   const isWalletConnected = !!address;
-  const isUnauthorized = isWalletConnected && accessCode === null;
+  const isUnauthorized = false;
+  const activeBalance = accountType === 'demo' ? demoBalance : houseBalance;
 
   const handleEnterBlitz = async () => {
     if (!isWalletConnected || !address) {
@@ -215,36 +213,6 @@ export const GameBoard: React.FC = () => {
     }
   };
 
-  const handleValidateAccess = async () => {
-    if (!accessInput || isValidating || !address) return;
-    setIsValidating(true);
-    setAccessError(null);
-
-    try {
-      const res = await fetch('/api/validate-access-code', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          code: accessInput.trim().toUpperCase(),
-          walletAddress: address
-        })
-      });
-
-      const data = await res.json();
-
-      if (res.ok && data.success) {
-        await fetchProfile(address);
-        toast.success("Access authorized!");
-      } else {
-        setAccessError(data.error || 'Invalid code');
-      }
-    } catch (err) {
-      setAccessError('Neural connection failed');
-    } finally {
-      setIsValidating(false);
-    }
-  };
-
   // Update Blitz Timer every second
   useEffect(() => {
     const interval = setInterval(() => {
@@ -372,7 +340,7 @@ export const GameBoard: React.FC = () => {
               <div className="flex flex-col items-start">
                 <span className="text-[10px] font-black text-white/40 uppercase tracking-[0.2em] leading-none mb-1">House Balance</span>
                 <span className="text-base font-black text-white leading-none font-mono">
-                  {houseBalance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} {currencySymbol}
+                  {activeBalance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} {currencySymbol}
                 </span>
               </div>
             </button>
@@ -451,41 +419,7 @@ export const GameBoard: React.FC = () => {
 
           {/* Content Area - Fixed Height */}
           <div className="p-4 min-h-[180px] relative flex flex-col">
-            {/* Overlay if not authorized */}
-            {isUnauthorized && (
-              <div className="absolute inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-md">
-                <div className="w-full space-y-4 text-center animate-in fade-in zoom-in duration-300">
-                  <div className="w-12 h-12 bg-purple-500/10 border border-purple-500/20 rounded-2xl flex items-center justify-center mx-auto shadow-lg">
-                    <Key className="w-6 h-6 text-purple-400" />
-                  </div>
-                  <div>
-                    <h4 className="text-white font-black uppercase tracking-[0.2em] text-[10px]">Access Restricted</h4>
-                  </div>
-                  <div className="space-y-3">
-                    <input
-                      type="text"
-                      value={accessInput}
-                      onChange={(e) => setAccessInput(e.target.value.toUpperCase())}
-                      placeholder="ENTER CODE"
-                      disabled={isValidating}
-                      className="w-full bg-black/60 border border-white/10 rounded-xl px-3 py-3 text-center text-white font-mono text-base tracking-[0.2em] placeholder:tracking-normal placeholder:text-white/10 focus:outline-none focus:border-purple-500/50 transition-all"
-                    />
-                    <button
-                      onClick={handleValidateAccess}
-                      disabled={!accessInput || isValidating}
-                      className="w-full bg-white text-black font-black uppercase tracking-widest text-[10px] py-3 rounded-xl hover:bg-gray-200 transition-all disabled:opacity-50"
-                    >
-                      {isValidating ? 'Validating...' : 'Unlock Node'}
-                    </button>
-                    {accessError && (
-                      <p className="text-red-500 text-[8px] font-black uppercase tracking-widest">{accessError}</p>
-                    )}
-                  </div>
-                </div>
-              </div>
-            )}
-
-            <div className={`transition-all duration-700 h-full flex flex-col ${isUnauthorized ? 'blur-xl grayscale opacity-20 pointer-events-none select-none' : ''}`}>
+            <div className="transition-all duration-700 h-full flex flex-col">
               {activeTab === 'bet' ? (
                 <div className="space-y-4">
                   {/* Amount Presets */}
@@ -769,10 +703,6 @@ export const GameBoard: React.FC = () => {
             {!isWalletConnected ? (
               <p className="text-gray-500 text-[10px] font-black uppercase tracking-widest text-center">
                 Connect wallet to start trading
-              </p>
-            ) : isUnauthorized ? (
-              <p className="text-purple-500 text-[10px] font-black uppercase tracking-widest text-center animate-pulse">
-                Initialization Required
               </p>
             ) : (
               <div className="flex items-center justify-between">

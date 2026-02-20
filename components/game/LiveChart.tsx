@@ -72,6 +72,9 @@ export const LiveChart: React.FC<LiveChartProps> = ({ betAmount, setBetAmount })
   const updateBalance = useStore((state) => state.updateBalance);
   const userAddress = useStore((state) => state.address);
   const houseBalance = useStore((state) => state.houseBalance);
+  const demoBalance = useStore((state) => state.demoBalance);
+  const accountType = useStore((state) => state.accountType);
+  const activeBalance = accountType === 'demo' ? demoBalance : houseBalance;
 
   const gameMode = useStore((state) => state.gameMode);
   const timeframeSeconds = useStore((state) => state.timeframeSeconds);
@@ -848,7 +851,7 @@ export const LiveChart: React.FC<LiveChartProps> = ({ betAmount, setBetAmount })
             const handleClick = async () => {
               if (canBet && betAmount && userAddress) {
                 const requiredAmount = parseFloat(betAmount);
-                const currentBalance = houseBalance || 0;
+                const currentBalance = activeBalance || 0;
 
                 if (currentBalance < requiredAmount) {
                   setShowInsufficientFunds(true);

@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useRef } from 'react';
-import { GameBoard } from '@/components/game';
+import { GameBoard, SettlementNotification } from '@/components/game';
 import { BetHistory, MiniHistory } from '@/components/history';
 import { WalletConnect, WalletInfo } from '@/components/wallet';
 import { QuickTour } from '@/components/tour/QuickTour';
@@ -14,6 +14,7 @@ export default function Home() {
     <div className="h-full w-full bg-[#02040A] overflow-hidden relative">
       <GameBoard />
       <MiniHistory />
+      <SettlementNotification />
 
       {/* Tour Component */}
       <QuickTour isOpen={isTourOpen} onClose={() => setIsTourOpen(false)} />

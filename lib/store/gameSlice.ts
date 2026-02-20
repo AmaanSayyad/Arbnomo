@@ -370,10 +370,11 @@ export const createGameSlice: StateCreator<any> = (set: any, get: any) => ({
 
       set({ isPlacingBet: true, error: null });
 
-      // Get current network and selected currency from store
+      // Get current network and selected currency from store (match balance API: ARB uses ETH)
       const network = (get() as any).network || 'BNB';
       const selectedCurrency = (get() as any).selectedCurrency;
-      const currency = (network === 'SOL' && selectedCurrency) ? selectedCurrency : network;
+      let currency = (network === 'SOL' && selectedCurrency) ? selectedCurrency : network;
+      if (network === 'ARB') currency = 'ETH';
 
       // Call API endpoint to place bet from house balance
       const response = await fetch('/api/balance/bet', {
@@ -430,6 +431,12 @@ export const createGameSlice: StateCreator<any> = (set: any, get: any) => ({
 
       // Add to active bets (multiple bets can be active simultaneously)
       addActiveBet(activeBet);
+
+      // Update house balance in store so UI reflects deduction immediately
+      const setBalance = (get() as any).setBalance;
+      if (typeof setBalance === 'function' && data.remainingBalance != null) {
+        setBalance(parseFloat(data.remainingBalance));
+      }
 
       set({
         isPlacingBet: false,
@@ -621,6 +628,7 @@ export const createGameSlice: StateCreator<any> = (set: any, get: any) => ({
       if (won) playWinSound();
       else playLoseSound();
 
+      const displayCurrency = (resolvedBet.network || network || 'ETH') === 'ARB' ? 'ETH' : (resolvedBet.network || network || 'ETH');
       set({
         activeBets: activeBets.filter((b: ActiveBet) => b.id !== betId),
         settledBets: [settledBet, ...settledBets].slice(0, 50), // Keep last 50
@@ -631,11 +639,11 @@ export const createGameSlice: StateCreator<any> = (set: any, get: any) => ({
           timestamp: now,
           asset: resolvedBet.asset,
           cellId: resolvedBet.cellId,
-          currency: resolvedBet.network || (network || 'ETH')
+          currency: displayCurrency
         }
       });
 
-      // Handle Balance Update
+      // Handle Balance Update (displayCurrency already normalizes ARB -> ETH)
       if (won) {
         if (accountType === 'real' && address) {
           fetch('/api/balance/win', {
@@ -644,12 +652,24 @@ export const createGameSlice: StateCreator<any> = (set: any, get: any) => ({
             body: JSON.stringify({
               userAddress: address,
               winAmount: payout,
-              currency: resolvedBet.network || (network || 'ETH'),
+              currency: displayCurrency,
               betId: resolvedBet.id
             })
-          }).then(() => {
+          }).then(async (res) => {
+            if (res.ok) {
+              const data = await res.json();
+              const setBalance = (get() as any).setBalance;
+              if (typeof setBalance === 'function' && data.newBalance != null) {
+                setBalance(parseFloat(data.newBalance));
+              } else if (fetchBalance) {
+                fetchBalance(address);
+              }
+            } else if (fetchBalance) {
+              fetchBalance(address);
+            }
+          }).catch(() => {
             if (fetchBalance) fetchBalance(address);
-          }).catch(console.error);
+          });
         } else if (accountType === 'demo') {
           updateBalance(payout, 'add');
         }

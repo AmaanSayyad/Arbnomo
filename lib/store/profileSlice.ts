@@ -32,15 +32,18 @@ export const createProfileSlice: StateCreator<ProfileState> = (set, get) => ({
             if (data) {
                 set({
                     username: data.username,
-                    accessCode: data.access_code
+                    accessCode: data.access_code ?? ''
                 });
                 if (typeof window !== 'undefined') {
                     if (data.username) localStorage.setItem('arbnomo_username', data.username);
                     if (data.access_code) localStorage.setItem('arbnomo_access_code', data.access_code);
                 }
+            } else {
+                set({ accessCode: '' });
             }
         } catch (error) {
             console.error('Error fetching profile:', error);
+            set({ accessCode: '' });
         }
     },
 

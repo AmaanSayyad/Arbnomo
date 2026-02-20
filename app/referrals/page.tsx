@@ -32,11 +32,14 @@ export default function ReferralPage() {
         }
     }, [isConnected, address, fetchReferralInfo]);
 
+    // Normalize display: show arbnomo- prefix (legacy DB may have binomo-)
+    const displayCode = referralCode ? referralCode.replace(/^binomo-/, 'arbnomo-') : null;
+
     useEffect(() => {
-        if (referralCode && typeof window !== 'undefined') {
-            setReferralLink(`https://arbnomo.fun/?ref=${referralCode}`);
+        if (displayCode && typeof window !== 'undefined') {
+            setReferralLink(`https://arbnomo.fun/?ref=${displayCode}`);
         }
-    }, [referralCode]);
+    }, [displayCode]);
 
     const copyToClipboard = (text: string, label: string) => {
         navigator.clipboard.writeText(text);
@@ -49,7 +52,7 @@ export default function ReferralPage() {
     };
 
     const shareOnX = () => {
-        const text = encodeURIComponent(`Trade with millisecond precision on @BYNOMOProtocol! 🚀\n\nJoin using my referral link and earn rewards:`);
+        const text = encodeURIComponent(`Trade with millisecond precision on @Arbnomo! 🚀\n\nJoin using my referral link and earn rewards:`);
         window.open(`https://twitter.com/intent/tweet?text=${text}&url=${encodeURIComponent(referralLink)}`, '_blank');
     };
 
@@ -86,7 +89,7 @@ export default function ReferralPage() {
                                 Network <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400 text-glow-purple">Referrals</span>
                             </h1>
                             <p className="text-white/30 text-sm font-bold uppercase tracking-widest leading-relaxed max-w-xl">
-                                Expand the BYNOMO neural network. Earn 10% from every trade made by your referred nodes.
+                                Expand the ARBNOMO neural network. Earn 10% from every trade made by your referred nodes.
                             </p>
                         </div>
                     </motion.div>
@@ -111,9 +114,9 @@ export default function ReferralPage() {
                                         <div className="space-y-4">
                                             <p className="text-[10px] font-black uppercase tracking-[0.3em] text-purple-400/60">Unique Code</p>
                                             <div className="flex items-center gap-4">
-                                                <span className="text-4xl md:text-6xl font-black tracking-tighter font-mono">{referralCode || '----'}</span>
+                                                <span className="text-4xl md:text-6xl font-black tracking-tighter font-mono">{displayCode || '----'}</span>
                                                 <button
-                                                    onClick={() => copyToClipboard(referralCode || '', 'Code')}
+                                                    onClick={() => copyToClipboard(displayCode || '', 'Code')}
                                                     className="w-12 h-12 bg-white/5 hover:bg-white/10 border border-white/5 rounded-2xl flex items-center justify-center transition-all active:scale-90"
                                                 >
                                                     <Share2 className="w-5 h-5 text-white/40" />
@@ -124,7 +127,7 @@ export default function ReferralPage() {
                                             <p className="text-[10px] font-black uppercase tracking-[0.3em] text-white/20">Referral Link</p>
                                             <div className="flex items-center gap-4">
                                                 <div className="flex-1 truncate text-xs font-mono text-white/40 bg-white/[0.02] border border-white/5 rounded-2xl px-6 py-4">
-                                                    {referralLink || 'BYNOMO.FUN/?REF=---'}
+                                                    {referralLink || 'ARBNOMO.FUN/?REF=---'}
                                                 </div>
                                                 <button
                                                     onClick={() => copyToClipboard(referralLink, 'Link')}

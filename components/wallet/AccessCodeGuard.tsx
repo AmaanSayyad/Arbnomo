@@ -16,25 +16,9 @@ export const AccessCodeGuard: React.FC = () => {
     const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
-        // Only trigger on "play" related routes
-        const isPlayRoute = pathname === '/trade' || pathname?.startsWith('/play');
-
-        // Only show modal if on play route, connected but no access code validated
-        if (isPlayRoute && isConnected && address && accessCode === null) {
-            // Check again from DB just to be sure
-            fetchProfile(address).then(() => {
-                // If still null after fetch, show modal
-                const currentAccessCode = useOverflowStore.getState().accessCode;
-                if (currentAccessCode === null) {
-                    setShowModal(true);
-                } else {
-                    setShowModal(false);
-                }
-            });
-        } else {
-            setShowModal(false);
-        }
-    }, [isConnected, address, accessCode, fetchProfile, pathname]);
+        // Access code requirement removed - never show the modal
+        setShowModal(false);
+    }, [pathname]);
 
     const handleValidate = async (e: React.FormEvent) => {
         e.preventDefault();
