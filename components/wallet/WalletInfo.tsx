@@ -40,7 +40,7 @@ export const WalletInfo: React.FC = () => {
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center p-1 border border-white/10 shrink-0">
             <img
-              src={network === 'SUI' ? '/logos/sui-logo.png' : (network === 'SOL' && selectedCurrency === 'ARB') ? '/overflowlogo.png' : network === 'SOL' ? '/logos/solana-sol-logo.png' : network === 'ARB' ? '/logos/eth-logo.png' : network === 'XLM' ? '/logos/stellar-xlm-logo.png' : network === 'XTZ' ? '/logos/tezos-xtz-logo.png' : network === 'NEAR' ? '/logos/near-logo.svg' : '/logos/bnb-bnb-logo.png'}
+              src={network === 'SUI' ? '/logos/sui-logo.png' : (network === 'SOL' && selectedCurrency === 'ARB') ? '/overflowlogo.png' : network === 'SOL' ? '/logos/solana-sol-logo.png' : network === 'ARB' ? '/arbitrum-arb-logo.png' : network === 'XLM' ? '/logos/stellar-xlm-logo.png' : network === 'XTZ' ? '/logos/tezos-xtz-logo.png' : network === 'NEAR' ? '/logos/near-logo.svg' : '/logos/bnb-bnb-logo.png'}
               alt={networkName}
               className="w-full h-full object-contain"
             />

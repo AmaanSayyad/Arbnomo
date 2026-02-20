@@ -26,10 +26,11 @@ export const Leaderboard: React.FC = () => {
             case 'SOL': return '/logos/solana-sol-logo.png';
             case 'SUI': return '/logos/sui-logo.png';
             case 'BNB': return '/logos/bnb-bnb-logo.png';
+            case 'ARB': return '/arbitrum-arb-logo.png';
             case 'XLM': return '/logos/stellar-xlm-logo.png';
             case 'XTZ': return '/logos/tezos-xtz-logo.png';
             case 'NEAR': return '/logos/near-logo.svg';
-            default: return '/logos/bnb-bnb-logo.png';
+            default: return '/arbitrum-arb-logo.png';
         }
     };
 
@@ -38,10 +39,11 @@ export const Leaderboard: React.FC = () => {
             case 'SOL': return 'SOL';
             case 'SUI': return 'USDC';
             case 'BNB': return 'BNB';
+            case 'ARB': return 'ETH';
             case 'XLM': return 'XLM';
             case 'XTZ': return 'XTZ';
             case 'NEAR': return 'NEAR';
-            default: return 'BNB';
+            default: return 'ETH';
         }
     };
 
@@ -222,7 +224,7 @@ export const Leaderboard: React.FC = () => {
                             {/* Footer */}
                             <div className="mt-2 sm:mt-3 pt-2 sm:pt-3 border-t border-white/5">
                                 <p className="text-[8px] sm:text-[9px] text-gray-600 text-center font-medium">
-                                    Ranked by net profit • Updates every 30s
+                                    Arbitrum players ranked by net profit
                                 </p>
                             </div>
                         </motion.div>

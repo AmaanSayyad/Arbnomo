@@ -7,10 +7,11 @@ import { BalanceDisplay } from '@/components/balance';
 import { startPriceFeed } from '@/lib/store/gameSlice';
 import { usePrivy, useWallets } from '@privy-io/react-auth';
 import { useWallet as useSolanaWallet } from '@solana/wallet-adapter-react';
-import { getBNBConfig } from '@/lib/bnb/config';
-import { getAddress } from 'viem';
+import { getARBConfig } from '@/lib/bnb/config';
+import { getAddress, parseEther } from 'viem';
 import { ethers } from 'ethers';
 import { useToast } from '@/lib/hooks/useToast';
+import { useSendTransaction, useSwitchChain, useAccount, usePublicClient } from 'wagmi';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Key, ShieldCheck, Loader2, Wallet } from 'lucide-react';
 import { useSignAndExecuteTransaction, useCurrentAccount } from '@mysten/dapp-kit';
@@ -53,6 +54,10 @@ export const GameBoard: React.FC = () => {
   const { wallets } = useWallets();
   const { } = usePrivy();
   const { sendTransaction: sendSolanaTransaction } = useSolanaWallet();
+  const { sendTransactionAsync } = useSendTransaction();
+  const { switchChainAsync } = useSwitchChain();
+  const { chainId: activeChainId } = useAccount();
+  const publicClient = usePublicClient();
 
   const [betAmount, setBetAmount] = useState<string>('0.1');
   const [selectedDuration, setSelectedDuration] = useState<number>(30);
@@ -70,8 +75,8 @@ export const GameBoard: React.FC = () => {
   const [accessError, setAccessError] = useState<string | null>(null);
 
   // Unified balance and currency
-  const currencySymbol = network === 'SOL' ? (selectedCurrency || 'SOL') : network === 'SUI' ? 'USDC' : network === 'XLM' ? 'XLM' : network === 'XTZ' ? 'XTZ' : network === 'NEAR' ? 'NEAR' : 'BNB';
-  const blitzEntryFee = 0.01;
+  const currencySymbol = network === 'SOL' ? (selectedCurrency || 'SOL') : network === 'SUI' ? 'USDC' : network === 'ARB' ? 'ETH' : network === 'XLM' ? 'XLM' : network === 'XTZ' ? 'XTZ' : network === 'NEAR' ? 'NEAR' : 'BNB';
+  const blitzEntryFee = 0.001;
 
   // Connection and Authorization status
   const isWalletConnected = !!address;
@@ -99,27 +104,34 @@ export const GameBoard: React.FC = () => {
         toast.info(`Confirming ${blitzEntryFee} SOL Blitz Entry...`);
         const signature = await sendSolanaTransaction(transaction, connection);
         console.log("Solana Blitz payment sig:", signature);
-      } else if (network === 'BNB') {
-        const wallet = wallets.find(w => w.address.toLowerCase() === address.toLowerCase());
-        if (!wallet) {
-          throw new Error("Active wallet not found in session. Please reconnect.");
-        }
-
-        const ethereumProvider = await wallet.getEthereumProvider();
-        const provider = new ethers.BrowserProvider(ethereumProvider);
-        const signer = await provider.getSigner();
-
-        const config = getBNBConfig();
+      } else if (network === 'BNB' || network === 'ARB') {
+        const config = getARBConfig();
         if (!config.treasuryAddress) {
           throw new Error("Treasury not configured");
         }
 
-        toast.info(`Confirming ${blitzEntryFee} BNB Blitz Entry...`);
-        const txResponse = await signer.sendTransaction({
+        if (activeChainId !== config.chainId && switchChainAsync) {
+          toast.info('Switching to Arbitrum Sepolia...');
+          try {
+            await switchChainAsync({ chainId: config.chainId });
+          } catch (err: any) {
+            if (err.message.includes('User rejected')) {
+              throw new Error('Please allow network switch in your wallet.');
+            }
+          }
+        }
+
+        const gasPrice = await publicClient?.getGasPrice();
+        const adjustedGasPrice = gasPrice ? (gasPrice * BigInt(150)) / BigInt(100) : undefined;
+
+        toast.info(`Confirming ${blitzEntryFee} ETH Blitz Entry...`);
+        const txHash = await sendTransactionAsync({
           to: getAddress(config.treasuryAddress),
-          value: ethers.parseEther(blitzEntryFee.toString()),
+          value: parseEther(blitzEntryFee.toString()),
+          chainId: config.chainId,
+          gasPrice: adjustedGasPrice,
         });
-        console.log("BNB Blitz payment tx:", txResponse.hash);
+        console.log("ARB Blitz payment tx:", txHash);
       } else if (network === 'SUI') {
         if (!suiAccount) throw new Error('Sui wallet not connected');
         const { buildDepositTransaction } = await import('@/lib/sui/client');

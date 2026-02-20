@@ -416,7 +416,7 @@ export const createGameSlice: StateCreator<any> = (set: any, get: any) => ({
         timestamp: Date.now(),
         status: 'active',
         network: network, // Save the network used (e.g. XLM, NEAR, BNB)
-        ...(gameMode === 'binomo' ? {
+        ...(gameMode === 'classic' ? {
           strikePrice: currentPrice,
           endTime: Date.now() + (durationSeconds * 1000)
         } : {

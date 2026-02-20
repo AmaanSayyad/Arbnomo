@@ -105,8 +105,8 @@ export const createWalletSlice: StateCreator<WalletState> = (set, get) => ({
 
     try {
       if (network === 'BNB' || network === 'ARB') {
-        const { getBNBBalance } = await import('@/lib/bnb/client');
-        const bal = await getBNBBalance(address);
+        const { getARBBalance } = await import('@/lib/bnb/client');
+        const bal = await getARBBalance(address);
         set({ walletBalance: bal });
       } else if (network === 'SOL') {
         const { getSOLBalance, getTokenBalance } = await import('@/lib/solana/client');

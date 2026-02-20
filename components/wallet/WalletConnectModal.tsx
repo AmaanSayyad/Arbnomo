@@ -154,7 +154,7 @@ export const WalletConnectModal: React.FC = () => {
                         >
                             <div className="absolute inset-0 bg-gradient-to-r from-blue-500/0 via-blue-500/5 to-blue-500/0 opacity-0 group-hover:opacity-100 transition-opacity" />
                             <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-blue-500/10 flex items-center justify-center border border-blue-500/20 group-hover:scale-110 transition-transform shrink-0">
-                                <img src="/logos/arbitrum-arb-logo.png" alt="ARB" className="w-6 h-6 sm:w-7 sm:h-7" />
+                                <img src="/arbitrum-arb-logo.png" alt="ARB" className="w-6 h-6 sm:w-7 sm:h-7" />
                             </div>
                             <div className="flex-1 text-left">
                                 <div className="flex items-center gap-2">
@@ -165,120 +165,9 @@ export const WalletConnectModal: React.FC = () => {
                             </div>
                             <Globe className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600 group-hover:text-blue-500 transition-colors" />
                         </button>
-
-                        {/* Solana Option */}
-                        <button
-                            onClick={handleSolanaConnect}
-                            className="w-full flex items-center gap-3 sm:gap-4 p-3 sm:p-4 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl transition-all group relative overflow-hidden"
-                        >
-                            <div className="absolute inset-0 bg-gradient-to-r from-teal-500/0 via-teal-500/5 to-teal-500/0 opacity-0 group-hover:opacity-100 transition-opacity" />
-                            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-teal-500/10 flex items-center justify-center border border-teal-500/20 group-hover:scale-110 transition-transform shrink-0">
-                                <img src="/logos/solana-sol-logo.png" alt="Solana" className="w-6 h-6 sm:w-7 sm:h-7" />
-                            </div>
-                            <div className="flex-1 text-left">
-                                <div className="flex items-center gap-2">
-                                    <span className="font-bold text-white text-sm sm:text-base">Solana</span>
-                                    <span className="px-1.5 py-0.5 rounded text-[8px] sm:text-[10px] bg-teal-500/20 text-teal-500 font-bold uppercase tracking-wider">Fast</span>
-                                </div>
-                                <p className="text-[10px] sm:text-xs text-gray-400 mt-0.5">Phantom, Backpack, etc.</p>
-                            </div>
-                            <ShieldCheck className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600 group-hover:text-teal-500 transition-colors" />
-                        </button>
-
-                        {/* Sui Option */}
-                        <button
-                            onClick={handleSuiConnect}
-                            className="w-full flex items-center gap-3 sm:gap-4 p-3 sm:p-4 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl transition-all group relative overflow-hidden"
-                        >
-                            <div className="absolute inset-0 bg-gradient-to-r from-blue-500/0 via-blue-500/5 to-blue-500/0 opacity-0 group-hover:opacity-100 transition-opacity" />
-                            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-blue-500/10 flex items-center justify-center border border-blue-500/20 group-hover:scale-110 transition-transform shrink-0">
-                                <img src="/logos/sui-logo.png" alt="Sui" className="w-6 h-6 sm:w-7 sm:h-7" />
-                            </div>
-                            <div className="flex-1 text-left">
-                                <div className="flex items-center gap-2">
-                                    <span className="font-bold text-white text-sm sm:text-base">Sui Network</span>
-                                    <span className="px-1.5 py-0.5 rounded text-[8px] sm:text-[10px] bg-blue-500/20 text-blue-500 font-bold uppercase tracking-wider">New</span>
-                                </div>
-                                <p className="text-[10px] sm:text-xs text-gray-400 mt-0.5">Sui Wallet, BlueMove, etc.</p>
-                            </div>
-                            <Wallet className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600 group-hover:text-blue-500 transition-colors" />
-                        </button>
-
-                        {/* Stellar Option */}
-                        <button
-                            onClick={handleStellarConnect}
-                            className="w-full flex items-center gap-3 sm:gap-4 p-3 sm:p-4 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl transition-all group relative overflow-hidden"
-                        >
-                            <div className="absolute inset-0 bg-gradient-to-r from-blue-400/0 via-blue-400/5 to-blue-400/0 opacity-0 group-hover:opacity-100 transition-opacity" />
-                            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-blue-400/10 flex items-center justify-center border border-blue-400/20 group-hover:scale-110 transition-transform shrink-0">
-                                <img src="/logos/stellar-xlm-logo.png" alt="Stellar" className="w-6 h-6 sm:w-7 sm:h-7" />
-                            </div>
-                            <div className="flex-1 text-left">
-                                <div className="flex items-center gap-2">
-                                    <span className="font-bold text-white text-sm sm:text-base">Stellar</span>
-                                    <span className="px-1.5 py-0.5 rounded text-[8px] sm:text-[10px] bg-blue-400/20 text-blue-400 font-bold uppercase tracking-wider">XLM</span>
-                                </div>
-                                <p className="text-[10px] sm:text-xs text-gray-400 mt-0.5">Freighter, Lobster, etc.</p>
-                            </div>
-                            <Globe className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600 group-hover:text-blue-400 transition-colors" />
-                        </button>
-
-                        {/* Tezos Option */}
-                        <button
-                            onClick={handleTezosConnect}
-                            className="w-full flex items-center gap-3 sm:gap-4 p-3 sm:p-4 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl transition-all group relative overflow-hidden"
-                        >
-                            <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/0 via-indigo-500/5 to-indigo-500/0 opacity-0 group-hover:opacity-100 transition-opacity" />
-                            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-indigo-500/10 flex items-center justify-center border border-indigo-500/20 group-hover:scale-110 transition-transform shrink-0">
-                                <img src="/logos/tezos-xtz-logo.png" alt="Tezos" className="w-6 h-6 sm:w-7 sm:h-7" />
-                            </div>
-                            <div className="flex-1 text-left">
-                                <div className="flex items-center gap-2">
-                                    <span className="font-bold text-white text-sm sm:text-base">Tezos</span>
-                                    <span className="px-1.5 py-0.5 rounded text-[8px] sm:text-[10px] bg-indigo-500/20 text-indigo-500 font-bold uppercase tracking-wider">XTZ</span>
-                                </div>
-                                <p className="text-[10px] sm:text-xs text-gray-400 mt-0.5">Temple, Kukai, etc.</p>
-                            </div>
-                            <Globe className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600 group-hover:text-indigo-500 transition-colors" />
-                        </button>
-
-                        {/* NEAR Option */}
-                        <button
-                            onClick={handleNearConnect}
-                            className="w-full flex items-center gap-3 sm:gap-4 p-3 sm:p-4 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl transition-all group relative overflow-hidden"
-                        >
-                            <div className="absolute inset-0 bg-gradient-to-r from-black/0 via-white/5 to-black/0 opacity-0 group-hover:opacity-100 transition-opacity" />
-                            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-white/10 flex items-center justify-center border border-white/20 group-hover:scale-110 transition-transform shrink-0">
-                                <img src="/logos/near-logo.svg" alt="NEAR" className="w-6 h-6 sm:w-7 sm:h-7 invert brightness-200" />
-                            </div>
-                            <div className="flex-1 text-left">
-                                <div className="flex items-center gap-2">
-                                    <span className="font-bold text-white text-sm sm:text-base">NEAR</span>
-                                    <span className="px-1.5 py-0.5 rounded text-[8px] sm:text-[10px] bg-white/20 text-white font-bold uppercase tracking-wider">Near</span>
-                                </div>
-                                <p className="text-[10px] sm:text-xs text-gray-400 mt-0.5">MyNearWallet, Meteor, Here, etc.</p>
-                            </div>
-                            <Globe className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600 group-hover:text-white transition-colors" />
-                        </button>
-
-                        {/* Privy Social Option */}
-                        <button
-                            onClick={handlePrivyConnect}
-                            className="w-full flex items-center gap-3 sm:gap-4 p-3 sm:p-4 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl transition-all group relative overflow-hidden"
-                        >
-                            <div className="absolute inset-0 bg-gradient-to-r from-purple-500/0 via-purple-500/5 to-purple-500/0 opacity-0 group-hover:opacity-100 transition-opacity" />
-                            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-purple-500/10 flex items-center justify-center border border-purple-500/20 group-hover:scale-110 transition-transform shrink-0">
-                                <Mail className="w-6 h-6 sm:w-7 sm:h-7 text-purple-400" />
-                            </div>
-                            <div className="flex-1 text-left">
-                                <div className="flex items-center gap-2">
-                                    <span className="font-bold text-white text-sm sm:text-base">Social Login</span>
-                                    <span className="px-1.5 py-0.5 rounded text-[8px] sm:text-[10px] bg-purple-500/20 text-purple-400 font-bold uppercase tracking-wider">Email</span>
-                                </div>
-                                <p className="text-[10px] sm:text-xs text-gray-400 mt-0.5">Google, Twitter, Email, etc.</p>
-                            </div>
-                            <Globe className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600 group-hover:text-purple-400 transition-colors" />
-                        </button>
+                        {/* Other networks hidden upon request
+                        <button ... > ... </button>
+                        */}
                     </div>
 
                     {/* Footer */}

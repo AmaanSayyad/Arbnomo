@@ -169,7 +169,7 @@ export default function WaitlistPage() {
 
             {/* HERO SECTION */}
             <section id="hero-top" className="min-h-screen flex flex-col justify-center relative overflow-hidden px-4 md:px-20">
-                <div className="w-full max-w-[1600px] mx-auto grid grid-cols-1 lg:grid-cols-2 items-center gap-12 lg:gap-24">
+                <div className="w-full max-w-[1600px] mx-auto grid grid-cols-1 lg:grid-cols-[55%_45%] xl:grid-cols-2 items-center gap-8 lg:gap-12 xl:gap-24">
 
                     {/* LEFT SIDE: Big Brand Name */}
                     <div className="flex flex-col justify-center select-none mix-blend-difference">
@@ -204,7 +204,7 @@ export default function WaitlistPage() {
                                             }
                                         }
                                     }}
-                                    className="text-[12vw] lg:text-[10rem] font-black leading-[0.8] tracking-tighter text-white"
+                                    className="text-[14vw] sm:text-[12vw] md:text-[8rem] lg:text-[5rem] xl:text-[6.5rem] 2xl:text-[8rem] font-black leading-[0.8] tracking-tighter text-white"
                                     style={{ fontFamily: 'var(--font-orbitron)' }}
                                 >
                                     {letter}

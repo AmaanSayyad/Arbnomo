@@ -217,10 +217,10 @@ export const BalanceDisplay: React.FC = () => {
                 <div className="flex items-center gap-1">
                   <img
                     src={
-                      currentSymbol === 'ARB' ? '/overflowlogo.png' :
+                      currentSymbol === 'ARB' ? '/arbitrum-arb-logo.png' :
                         network === 'SUI' ? '/logos/sui-logo.png' :
                           network === 'SOL' ? '/logos/solana-sol-logo.png' :
-                            network === 'ARB' ? '/logos/eth-logo.png' :
+                            network === 'ARB' ? '/logos/ethereum-eth-logo.png' :
                               network === 'XLM' ? '/logos/stellar-xlm-logo.png' :
                                 network === 'XTZ' ? '/logos/tezos-xtz-logo.png' :
                                   network === 'NEAR' ? '/logos/near-logo.svg' :

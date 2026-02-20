@@ -15,6 +15,9 @@ import { buildDepositTransaction as buildSuiDepositTransaction } from '@/lib/sui
 
 import { useWallet as useSolanaWallet } from '@solana/wallet-adapter-react';
 import { useSignAndExecuteTransaction, useCurrentAccount } from '@mysten/dapp-kit';
+import { useSendTransaction, useSwitchChain, useAccount, usePublicClient } from 'wagmi';
+import { parseEther } from 'viem';
+import { getARBConfig } from '@/lib/bnb/config';
 
 interface DepositModalProps {
   isOpen: boolean;
@@ -42,6 +45,12 @@ export const DepositModal: React.FC<DepositModalProps> = ({
   // Sui Hooks
   const { mutateAsync: signAndExecuteSui } = useSignAndExecuteTransaction();
   const suiAccount = useCurrentAccount();
+
+  // Wagmi Hooks
+  const { sendTransactionAsync } = useSendTransaction();
+  const { switchChainAsync } = useSwitchChain();
+  const { chainId: activeChainId } = useAccount();
+  const publicClient = usePublicClient();
 
   const { depositFunds, network, walletBalance, refreshWalletBalance, address } = useOverflowStore();
   const toast = useToast();
@@ -219,24 +228,33 @@ export const DepositModal: React.FC<DepositModalProps> = ({
         const result = await server.submitTransaction(TransactionBuilder.fromXDR(signedTxXdr, Networks.PUBLIC));
         txHash = (result as any).hash || (result as any).id || signedTxXdr.slice(0, 16);
       } else {
-        // BNB (EVM via Privy)
-        if (!authenticated) throw new Error('Not authenticated with Privy');
-        const wallet = privyWallets.find(w => w.address.toLowerCase() === address.toLowerCase());
-        if (!wallet) throw new Error('Privy wallet not found');
+        // ARB (EVM via Wagmi)
+        const arbConfig = getARBConfig();
+        if (!arbConfig.treasuryAddress) throw new Error('Treasury address not configured');
 
-        const ethereumProvider = await wallet.getEthereumProvider();
-        const provider = new ethers.BrowserProvider(ethereumProvider);
-        const signer = await provider.getSigner();
+        if (activeChainId !== arbConfig.chainId && switchChainAsync) {
+          toast.info('Switching to Arbitrum Sepolia...');
+          try {
+            await switchChainAsync({ chainId: arbConfig.chainId });
+          } catch (err: any) {
+            if (err.message.includes('User rejected')) {
+              throw new Error('Please allow network switch in your wallet.');
+            }
+          }
+        }
 
-        const bnbConfig = getBNBConfig();
-        if (!bnbConfig.treasuryAddress) throw new Error('Treasury address not configured');
+        const gasPrice = await publicClient?.getGasPrice();
+        // Add 50% buffer to gas price to handle rapid block changes on Arbitrum
+        const adjustedGasPrice = gasPrice ? (gasPrice * BigInt(150)) / BigInt(100) : undefined;
 
         toast.info('Please confirm the transaction in your wallet...');
-        const txResponse = await signer.sendTransaction({
-          to: getAddress(bnbConfig.treasuryAddress),
-          value: ethers.parseEther(depositAmount.toString()),
+        const hash = await sendTransactionAsync({
+          to: getAddress(arbConfig.treasuryAddress),
+          value: parseEther(depositAmount.toString()),
+          chainId: arbConfig.chainId,
+          gasPrice: adjustedGasPrice,
         });
-        txHash = txResponse.hash;
+        txHash = hash;
       }
 
       toast.info('Transaction submitted. Waiting for confirmation...');
@@ -282,7 +300,7 @@ export const DepositModal: React.FC<DepositModalProps> = ({
           <p className="text-[#00f5ff] text-xl font-bold font-mono flex items-center gap-2">
             {network === 'SUI' && <img src="/usd-coin-usdc-logo.png" alt="USDC" className="w-5 h-5" />}
             {network === 'XTZ' && <img src="/logos/tezos-xtz-logo.png" alt="XTZ" className="w-5 h-5" />}
-            {network === 'ARB' && <img src="/logos/eth-logo.png" alt="ETH" className="w-5 h-5" />}
+            {network === 'ARB' && <img src="/logos/ethereum-eth-logo.png" alt="ETH" className="w-5 h-5" />}
             {currencySymbol === 'ARB' ? <img src="/overflowlogo.png" alt="ARB" className="w-5 h-5" /> : (network === 'SOL' && <img src="/logos/solana-sol-logo.png" alt="SOL" className="w-5 h-5" />)}
             {network === 'XLM' && <img src="/logos/stellar-xlm-logo.png" alt="XLM" className="w-5 h-5" />}
             {network === 'NEAR' && <img src="/logos/near-logo.svg" alt="NEAR" className="w-5 h-5" />}

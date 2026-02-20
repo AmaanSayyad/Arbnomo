@@ -3,11 +3,13 @@ import { usePrivy } from '@privy-io/react-auth';
 import { useOverflowStore } from '@/lib/store';
 import { useWallet as useSolanaWallet } from '@solana/wallet-adapter-react';
 import { useDisconnectWallet as useSuiDisconnect } from '@mysten/dapp-kit';
+import { useDisconnect } from 'wagmi';
 
 export const WalletConnect: React.FC = () => {
   const { logout: logoutPrivy, authenticated, user, ready } = usePrivy();
   const { disconnect: disconnectSolana, connected: solanaConnected } = useSolanaWallet();
   const { mutate: disconnectSui } = useSuiDisconnect();
+  const { disconnect: disconnectWagmi } = useDisconnect();
 
   const { network, address, setConnectModalOpen, disconnect: disconnectStore, setPreferredNetwork } = useOverflowStore();
 
@@ -17,6 +19,7 @@ export const WalletConnect: React.FC = () => {
 
   const handleDisconnect = () => {
     if (network === 'BNB') logoutPrivy();
+    else if (network === 'ARB') { disconnectWagmi(); }
     else if (network === 'SOL') disconnectSolana();
     else if (network === 'SUI') disconnectSui();
     else if (network === 'XLM') {
@@ -34,10 +37,11 @@ export const WalletConnect: React.FC = () => {
       case 'SOL': return '/logos/solana-sol-logo.png';
       case 'SUI': return '/logos/sui-logo.png';
       case 'BNB': return '/logos/bnb-bnb-logo.png';
+      case 'ARB': return '/arbitrum-arb-logo.png';
       case 'XLM': return '/logos/stellar-xlm-logo.png';
       case 'XTZ': return '/logos/tezos-xtz-logo.png';
       case 'NEAR': return '/logos/near-logo.svg';
-      default: return '/logos/bnb-bnb-logo.png';
+      default: return '/arbitrum-arb-logo.png';
     }
   };
 
@@ -46,6 +50,7 @@ export const WalletConnect: React.FC = () => {
       case 'SOL': return 'SOL';
       case 'SUI': return 'SUI';
       case 'BNB': return 'BNB';
+      case 'ARB': return 'ARB';
       case 'XLM': return 'XLM';
       case 'XTZ': return 'XTZ';
       case 'NEAR': return 'NEAR';

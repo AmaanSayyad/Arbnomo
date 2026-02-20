@@ -1,35 +1,35 @@
 /**
- * BNB Smart Chain (BSC) SDK Integration Module
+ * Arbitrum SDK Integration Module
  */
 
 import { ethers } from 'ethers';
-import { getBNBConfig } from './config';
+import { getARBConfig } from './config';
 
 // Singleton Provider instance
 let provider: ethers.JsonRpcProvider | null = null;
 
 /**
- * Get or create a BNB provider instance
+ * Get or create an Arbitrum provider instance
  */
-export function getBNBProvider(): ethers.JsonRpcProvider {
+export function getARBProvider(): ethers.JsonRpcProvider {
     if (!provider) {
-        const config = getBNBConfig();
+        const config = getARBConfig();
         provider = new ethers.JsonRpcProvider(config.rpcEndpoint);
     }
     return provider;
 }
 
 /**
- * Get BNB balance for a given address
+ * Get ETH balance for a given address on Arbitrum
  */
-export async function getBNBBalance(address: string): Promise<number> {
-    const provider = getBNBProvider();
+export async function getARBBalance(address: string): Promise<number> {
+    const provider = getARBProvider();
 
     try {
         const balance = await provider.getBalance(address);
         return parseFloat(ethers.formatEther(balance));
     } catch (error) {
-        console.error('Failed to get BNB balance:', error);
+        console.error('Failed to get ARB ETH balance:', error);
         return 0;
     }
 }
@@ -38,9 +38,9 @@ export async function getBNBBalance(address: string): Promise<number> {
  * Get treasury balance
  */
 export async function getTreasuryBalance(): Promise<number> {
-    const config = getBNBConfig();
+    const config = getARBConfig();
     if (!config.treasuryAddress) return 0;
-    return getBNBBalance(config.treasuryAddress);
+    return getARBBalance(config.treasuryAddress);
 }
 
 /**

@@ -12,7 +12,7 @@ const steps = [
     {
         id: "01",
         title: "Hybrid Custody",
-        desc: "Solana-speed performance with non-custodial security. BYNOMO connects your wallet to a high-speed house balance for instant execution without gas lag."
+        desc: "Solana-speed performance with non-custodial security. ARBNOMO connects your wallet to a high-speed house balance for instant execution without gas lag."
     },
     {
         id: "02",
@@ -35,7 +35,7 @@ const testimonials = [
     {
         name: "Astra Vance",
         role: "Venture Strategist",
-        content: "The Blitz Rounds are a game-changer. The millisecond precision from Pyth Oracles makes BYNOMO feel like a professional CEX but with decentralized peace of mind.",
+        content: "The Blitz Rounds are a game-changer. The millisecond precision from Pyth Oracles makes ARBNOMO feel like a professional CEX but with decentralized peace of mind.",
         avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200&auto=format&fit=crop"
     },
     {
@@ -47,19 +47,19 @@ const testimonials = [
     {
         name: "Kai Zen",
         role: "Algo Developer",
-        content: "Migrating to the BYNOMO protocol was the best move. Instant house balance settlement solves the on-chain latency issue perfectly for high-frequency binary options.",
+        content: "Migrating to the ARBNOMO protocol was the best move. Instant house balance settlement solves the on-chain latency issue perfectly for high-frequency binary options.",
         avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200&auto=format&fit=crop"
     },
     {
         name: "Julian Vane",
         role: "Quant Trader",
-        content: "BYNOMO's tiered system provides a clear roadmap for traders. The VIP perks and advanced indicators give us a significant edge in these fast-moving rounds.",
+        content: "ARBNOMO's tiered system provides a clear roadmap for traders. The VIP perks and advanced indicators give us a significant edge in these fast-moving rounds.",
         avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=200&auto=format&fit=crop"
     },
     {
         name: "Sarah M.",
         role: "Early Adopter",
-        content: "Switching between Bitcoin and Gold predictions within seconds is what makes BYNOMO stand out. The multi-asset support is truly elite.",
+        content: "Switching between Bitcoin and Gold predictions within seconds is what makes ARBNOMO stand out. The multi-asset support is truly elite.",
         avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=200&auto=format&fit=crop"
     }
 ];
@@ -67,11 +67,11 @@ const testimonials = [
 const faqs = [
     {
         question: "How does the House Balance work?",
-        answer: "To ensure millisecond execution, BYNOMO uses a hybrid house balance system. You deposit SOL or BNB into a non-custodial treasury, which is then reflected in your game balance for instant off-chain betting."
+        answer: "To ensure millisecond execution, ARBNOMO uses a hybrid house balance system. You deposit SOL or BNB into a non-custodial treasury, which is then reflected in your game balance for instant off-chain betting."
     },
     {
         question: "What assets can I trade?",
-        answer: "BYNOMO supports a wide range of assets including major cryptos (BTC, ETH, SOL), precious metals (Gold, Silver), and top-tier stocks (AAPL, NVDA, TSLA) through Pyth price feeds."
+        answer: "ARBNOMO supports a wide range of assets including major cryptos (BTC, ETH, SOL), precious metals (Gold, Silver), and top-tier stocks (AAPL, NVDA, TSLA) through Pyth price feeds."
     },
     {
         question: "What are Blitz Rounds?",
@@ -83,7 +83,7 @@ const faqs = [
     },
     {
         question: "Are my funds safe?",
-        answer: "Yes. All deposits are held in a secure treasury wallet verified on-chain. Withdrawals are processed through the BYNOMO protocol, ensuring you maintain ultimate control over your assets."
+        answer: "Yes. All deposits are held in a secure treasury wallet verified on-chain. Withdrawals are processed through the ARBNOMO protocol, ensuring you maintain ultimate control over your assets."
     }
 ];
 
@@ -168,7 +168,7 @@ export default function WaitlistPage() {
 
             {/* HERO SECTION */}
             <section id="hero-top" className="min-h-screen flex flex-col justify-center relative overflow-hidden px-4 md:px-20">
-                <div className="w-full max-w-[1600px] mx-auto grid grid-cols-1 lg:grid-cols-2 items-center gap-12 lg:gap-24">
+                <div className="w-full max-w-[1600px] mx-auto grid grid-cols-1 lg:grid-cols-[55%_45%] xl:grid-cols-2 items-center gap-8 lg:gap-12 xl:gap-24">
 
                     {/* LEFT SIDE: Big Brand Name */}
                     <div className="flex flex-col justify-center select-none mix-blend-difference">
@@ -187,7 +187,7 @@ export default function WaitlistPage() {
                             }}
                             className="flex"
                         >
-                            {Array.from("BYNOMO").map((letter, index) => (
+                            {Array.from("ARBNOMO").map((letter, index) => (
                                 <motion.h1
                                     key={index}
                                     variants={{
@@ -203,7 +203,7 @@ export default function WaitlistPage() {
                                             }
                                         }
                                     }}
-                                    className="text-[12vw] lg:text-[10rem] font-black leading-[0.8] tracking-tighter text-white"
+                                    className="text-[14vw] sm:text-[12vw] md:text-[8rem] lg:text-[5rem] xl:text-[6.5rem] 2xl:text-[8rem] font-black leading-[0.8] tracking-tighter text-white"
                                     style={{ fontFamily: 'var(--font-orbitron)' }}
                                 >
                                     {letter}
@@ -392,7 +392,7 @@ export default function WaitlistPage() {
 
             {/* FOOTER SECTION */}
             <footer className="py-24 px-10 border-t border-white/5 bg-black relative z-10 w-full overflow-hidden">
-                <div className="huge-footer-logo">BYNOMO</div>
+                <div className="huge-footer-logo">ARBNOMO</div>
 
                 <div className="footer-meta">
                     <div className="footer-meta-item">2026 © All rights reserved</div>
