@@ -22,15 +22,16 @@ const orbitron = Orbitron({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://bynomo.fun'),
-  title: "Bynomo - Trade over 300+ Crypto, Stocks, Metals and Forex with 5s-1m time-charts",
+  metadataBase: new URL('https://arbnomo.fun'),
+  title: "Arbnomo - Trade over 300+ Crypto, Stocks, Metals and Forex with 5s-1m time-charts",
   description:
-    "The first on-chain binary options trading dapp. Powered by Pyth Hermes price attestations, Supabase, and x402-style payments. Oracle-bound resolution, minimal trust.",
+    "The first Arbitrum on-chain binary options trading dapp. Powered by Pyth Hermes price attestations, Supabase, and x402-style payments. Oracle-bound resolution, minimal trust.",
   keywords: [
     "binary options",
     "crypto trading",
     "Pyth oracle",
-    "BNB",
+    "Arbitrum",
+    "ETH",
     "Solana",
     "Sui",
     "Stellar",
@@ -45,15 +46,15 @@ export const metadata: Metadata = {
     apple: "/overflowlogo.ico",
   },
   openGraph: {
-    title: "Bynomo — Trade over 300+ Crypto, Stocks, Metals and Forex with 5s-1m time-charts",
+    title: "Arbnomo — Trade over 300+ Crypto, Stocks, Metals and Forex with 5s-1m time-charts",
     description:
-      "The first on-chain binary options trading dapp. Powered by Pyth Hermes price attestations, Supabase, and x402-style payments. Oracle-bound resolution, minimal trust",
-    images: [{ url: '/overflowlogo.png', width: 512, height: 512, alt: 'Bynomo' }],
+      "The first Arbitrum on-chain binary options trading dapp. Powered by Pyth Hermes price attestations, Supabase, and x402-style payments. Oracle-bound resolution, minimal trust",
+    images: [{ url: '/overflowlogo.png', width: 512, height: 512, alt: 'Arbnomo' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: "Bynomo — Trade over 300+ Crypto, Stocks, Metals and Forex with 5s-1m time-charts",
-    description: "Trade binary options with oracle-bound resolution and minimal trust.",
+    title: "Arbnomo — Trade over 300+ Crypto, Stocks, Metals and Forex with 5s-1m time-charts",
+    description: "Trade binary options with oracle-bound resolution and minimal trust on Arbitrum.",
     images: ['/overflowlogo.png'],
   },
 };

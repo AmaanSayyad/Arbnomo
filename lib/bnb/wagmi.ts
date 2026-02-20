@@ -1,24 +1,24 @@
 import { getDefaultConfig } from 'connectkit';
 import { createConfig, http } from 'wagmi';
-import { bscTestnet, bsc } from 'wagmi/chains';
+import { arbitrumSepolia } from 'wagmi/chains';
 
 export const config = createConfig(
     getDefaultConfig({
         // Your dApps chains
-        chains: [bsc],
+        chains: [arbitrumSepolia],
         transports: {
-            [bsc.id]: http(),
+            [arbitrumSepolia.id]: http(),
         },
 
         // Required API Keys
         walletConnectProjectId: process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID || 'dummy-id',
 
         // Required App Info
-        appName: 'BYNOMO',
+        appName: 'Arbnomo',
 
         // Optional App Info
-        appDescription: 'BYNOMO on BNB Smart Chain',
-        appUrl: 'https://family.co', // your app's url
-        appIcon: 'https://family.co/logo.png', // your app's icon
+        appDescription: 'Arbnomo on Arbitrum Sepolia',
+        appUrl: 'https://arbnomo.com', // updated url
+        appIcon: 'https://arbnomo.com/logo.png', // updated icon
     }),
 );

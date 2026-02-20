@@ -272,8 +272,8 @@ export const GameBoard: React.FC = () => {
     }
   };
 
-  const handleBynomoBet = async (direction: 'UP' | 'DOWN') => {
-    if (!address || !isWalletConnected || gameMode !== 'binomo' || isUnauthorized) return;
+  const handleClassicBet = async (direction: 'UP' | 'DOWN') => {
+    if (!address || !isWalletConnected || gameMode !== 'classic' || isUnauthorized) return;
 
     try {
       const multiplier = getMultiplier(selectedDuration);
@@ -387,8 +387,8 @@ export const GameBoard: React.FC = () => {
           {/* Game Mode Selector */}
           <div className="flex gap-1 p-1 bg-black/60 border-b border-white/5" data-tour="game-mode-toggle">
             <button
-              onClick={() => setGameMode('binomo')}
-              className={`flex-1 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-tighter transition-all duration-200 ${gameMode === 'binomo'
+              onClick={() => setGameMode('classic')}
+              className={`flex-1 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-tighter transition-all duration-200 ${gameMode === 'classic'
                 ? 'bg-purple-600/20 text-purple-400 border border-purple-500/40'
                 : 'text-gray-500 hover:text-gray-300'
                 }`}
@@ -520,7 +520,7 @@ export const GameBoard: React.FC = () => {
                         >
                           <div className="flex flex-col items-center gap-0.5">
                             <span className="tracking-tighter">{duration < 60 ? `${duration}s` : '1m'}</span>
-                            {gameMode === 'binomo' && (
+                            {gameMode === 'classic' && (
                               <span className="text-[7px] sm:text-[8px] opacity-70 font-mono tracking-tighter">x{getMultiplier(duration)}</span>
                             )}
                           </div>
@@ -549,10 +549,10 @@ export const GameBoard: React.FC = () => {
                   </div>
 
                   {/* Action Buttons / Instructions */}
-                  {gameMode === 'binomo' ? (
+                  {gameMode === 'classic' ? (
                     <div className="grid grid-cols-2 gap-3 pt-2">
                       <button
-                        onClick={() => handleBynomoBet('UP')}
+                        onClick={() => handleClassicBet('UP')}
                         disabled={!isWalletConnected || isPlacingBet || isUnauthorized}
                         className="group relative flex flex-col items-center justify-center gap-1 py-4 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 rounded-2xl transition-all duration-200 active:scale-95 disabled:opacity-50"
                       >
@@ -561,7 +561,7 @@ export const GameBoard: React.FC = () => {
                       </button>
 
                       <button
-                        onClick={() => handleBynomoBet('DOWN')}
+                        onClick={() => handleClassicBet('DOWN')}
                         disabled={!isWalletConnected || isPlacingBet || isUnauthorized}
                         className="group relative flex flex-col items-center justify-center gap-1 py-4 bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/30 rounded-2xl transition-all duration-200 active:scale-95 disabled:opacity-50"
                       >

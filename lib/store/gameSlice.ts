@@ -12,7 +12,7 @@ import { AssetType } from "@/lib/utils/priceFeed";
 import { playWinSound, playLoseSound } from "@/lib/utils/sounds";
 
 // Game Modes
-export type GameMode = 'binomo' | 'box';
+export type GameMode = 'classic' | 'box';
 
 // Active bet (Supports both modes)
 export interface ActiveBet {
@@ -124,10 +124,10 @@ const DEFAULT_TARGET_CELLS: TargetCell[] = [
  * Create game slice for Zustand store
  * Handles betting, round management, and price updates
  */
-export const createGameSlice: StateCreator<any> = (set, get) => ({
+export const createGameSlice: StateCreator<any> = (set: any, get: any) => ({
   // Initial state
-  gameMode: 'binomo', // Default to binomo mode
-  selectedAsset: 'BNB',
+  gameMode: 'classic', // Default to classic mode
+  selectedAsset: 'ETH',
   currentPrice: 0,
   priceHistory: [],
   assetPrices: {},
@@ -227,7 +227,7 @@ export const createGameSlice: StateCreator<any> = (set, get) => ({
     set((state: GameState) => ({
       timeframeSeconds: seconds,
       /**
-       * In 'binomo' (classic) mode or when there are no box bets, we update timeframeSeconds.
+       * In 'classic' mode or when there are no box bets, we update timeframeSeconds.
        * Classic bets are independent of the current selector (they have strikePrice/endTime),
        * so we keep them active.
        */
@@ -341,7 +341,7 @@ export const createGameSlice: StateCreator<any> = (set, get) => ({
           direction: direction,
           timestamp: Date.now(),
           status: 'active',
-          ...(gameMode === 'binomo' ? {
+          ...(gameMode === 'classic' ? {
             strikePrice: currentPrice,
             endTime: Date.now() + (durationSeconds * 1000)
           } : {
@@ -555,7 +555,7 @@ export const createGameSlice: StateCreator<any> = (set, get) => ({
       if (betAsset !== currentSelectedAsset || bet.status !== 'active') return;
 
       // BINOMO (Classic) Logic
-      if (bet.mode === 'binomo' && bet.endTime && bet.strikePrice !== undefined && now >= bet.endTime) {
+      if (bet.mode === 'classic' && bet.endTime && bet.strikePrice !== undefined && now >= bet.endTime) {
         let won = false;
         if (bet.direction === 'UP') {
           won = finalPrice > bet.strikePrice;
@@ -631,7 +631,7 @@ export const createGameSlice: StateCreator<any> = (set, get) => ({
           timestamp: now,
           asset: resolvedBet.asset,
           cellId: resolvedBet.cellId,
-          currency: resolvedBet.network || (network || 'BNB')
+          currency: resolvedBet.network || (network || 'ETH')
         }
       });
 
@@ -644,7 +644,7 @@ export const createGameSlice: StateCreator<any> = (set, get) => ({
             body: JSON.stringify({
               userAddress: address,
               winAmount: payout,
-              currency: resolvedBet.network || (network || 'BNB'),
+              currency: resolvedBet.network || (network || 'ETH'),
               betId: resolvedBet.id
             })
           }).then(() => {
@@ -669,7 +669,7 @@ export const createGameSlice: StateCreator<any> = (set, get) => ({
           actualChange: currentPrice - (resolvedBet.strikePrice || 0),
           target: {
             id: resolvedBet.cellId || 'classic',
-            label: resolvedBet.mode === 'binomo' ? `${resolvedBet.direction} ${resolvedBet.multiplier}x` : `Box ${resolvedBet.multiplier}x`,
+            label: resolvedBet.mode === 'classic' ? `${resolvedBet.direction} ${resolvedBet.multiplier}x` : `Box ${resolvedBet.multiplier}x`,
             multiplier: resolvedBet.multiplier,
             priceChange: 0,
             direction: resolvedBet.direction
@@ -685,7 +685,7 @@ export const createGameSlice: StateCreator<any> = (set, get) => ({
           body: JSON.stringify({
             id: resolvedBet.id,
             walletAddress: address,
-            asset: resolvedBet.asset || 'BNB',
+            asset: resolvedBet.asset || 'ETH',
             direction: resolvedBet.direction,
             amount: resolvedBet.amount,
             multiplier: resolvedBet.multiplier,
@@ -694,7 +694,7 @@ export const createGameSlice: StateCreator<any> = (set, get) => ({
             payout: payout,
             won: won,
             mode: resolvedBet.mode,
-            network: resolvedBet.network || network || 'BNB',
+            network: resolvedBet.network || network || 'ETH',
           })
         }).catch(err => console.error('Failed to save bet to Supabase:', err));
       }

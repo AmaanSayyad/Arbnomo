@@ -120,7 +120,7 @@ export const AccessCodeGuard: React.FC = () => {
                         </div>
 
                         <p className="text-white/40 text-sm font-medium leading-relaxed max-w-sm mb-10">
-                            BYNOMO is currently in limited access mode. To initialize your neural trading node, please enter your unique access code.
+                            Arbnomo is currently in limited access mode. To initialize your neural trading node, please enter your unique access code.
                         </p>
 
                         <form onSubmit={handleValidate} className="w-full space-y-6">

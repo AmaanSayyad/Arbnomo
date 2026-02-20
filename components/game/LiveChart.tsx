@@ -89,6 +89,7 @@ export const LiveChart: React.FC<LiveChartProps> = ({ betAmount, setBetAmount })
         const state = useStore.getState() as any;
         return state.selectedCurrency || 'SOL';
       }
+      case 'ARB': return 'ETH';
       default: return 'BNB';
     }
   }, [network]);
@@ -175,7 +176,7 @@ export const LiveChart: React.FC<LiveChartProps> = ({ betAmount, setBetAmount })
 
   // Asset display configuration
   const assetConfig: Record<AssetType, { name: string; symbol: string; pair: string; decimals: number; logo: string; category: 'Crypto' | 'Metals' | 'Forex' | 'Stocks' }> = {
-    BYNOMO: { name: 'Bynomo Token', symbol: 'BYNOMO', pair: 'BYNOMO/USD', decimals: 6, logo: '/overflowlogo.png', category: 'Crypto' },
+    ARB: { name: 'Arbnomo Token', symbol: 'ARB', pair: 'ARB/USD', decimals: 6, logo: '/overflowlogo.png', category: 'Crypto' },
     BTC: { name: 'Bitcoin', symbol: 'BTC', pair: 'BTC/USD', decimals: 2, logo: '/logos/bitcoin-btc-logo.png', category: 'Crypto' },
     ETH: { name: 'Ethereum', symbol: 'ETH', pair: 'ETH/USD', decimals: 2, logo: '/logos/ethereum-eth-logo.png', category: 'Crypto' },
     SOL: { name: 'Solana', symbol: 'SOL', pair: 'SOL/USD', decimals: 2, logo: '/logos/solana-sol-logo.png', category: 'Crypto' },
@@ -359,7 +360,7 @@ export const LiveChart: React.FC<LiveChartProps> = ({ betAmount, setBetAmount })
   // Handle classic (binomo) mode bet results at the graph tip
   const lastProcessedResultRef = useRef<number>(0);
   useEffect(() => {
-    if (lastResult && gameMode === 'binomo' && scales && lastResult.timestamp > lastProcessedResultRef.current) {
+    if (lastResult && gameMode === 'classic' && scales && lastResult.timestamp > lastProcessedResultRef.current) {
       lastProcessedResultRef.current = lastResult.timestamp;
 
       const multiplier = lastResult.amount > 0 ? lastResult.payout / lastResult.amount : 0;
@@ -934,7 +935,7 @@ export const LiveChart: React.FC<LiveChartProps> = ({ betAmount, setBetAmount })
 
       {/* Classic mode: Active Bets SVG Overlay - Strike and Expiration lines */}
       <svg className="absolute inset-0 w-full h-full z-20 pointer-events-none">
-        {gameMode === 'binomo' && scales && activeBets.map((bet: any) => {
+        {gameMode === 'classic' && scales && activeBets.map((bet: any) => {
           if (bet.status !== 'active') return null;
 
           const strikeY = scales.yScale(bet.strikePrice);

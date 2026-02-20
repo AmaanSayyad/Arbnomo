@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabase/client';
 import { ethers } from 'ethers';
-import { transferBNBFromTreasury } from '@/lib/bnb/backend-client';
+import { transferARBFromTreasury } from '@/lib/bnb/backend-client';
 
 interface WithdrawRequest {
   userAddress: string;
@@ -12,7 +12,7 @@ interface WithdrawRequest {
 export async function POST(request: NextRequest) {
   try {
     const body: WithdrawRequest = await request.json();
-    const { userAddress, amount, currency = 'BNB' } = body;
+    const { userAddress, amount, currency = 'ARB' } = body;
 
     // Validate required fields
     if (!userAddress || amount === undefined || amount === null) {
@@ -32,14 +32,14 @@ export async function POST(request: NextRequest) {
     }
 
     // Detect network flags for backend transfer
-    let isBNB = ethers.isAddress(userAddress);
+    let isARB = ethers.isAddress(userAddress);
     let isSOL = false;
     let isSUI = false;
     let isXLM = false;
     let isXTZ = false;
     let isNEAR = false;
 
-    if (!isBNB) {
+    if (!isARB) {
       if (/^0x[0-9a-fA-F]{64}$/.test(userAddress)) {
         isSUI = true;
       } else if (/^G[A-Z2-7]{55}$/.test(userAddress)) {
@@ -96,8 +96,8 @@ export async function POST(request: NextRequest) {
     // 3. Perform transfer from treasury based on network
     let signature: string;
     try {
-      if (isBNB) {
-        signature = await transferBNBFromTreasury(userAddress, netWithdrawAmount);
+      if (isARB) {
+        signature = await transferARBFromTreasury(userAddress, netWithdrawAmount);
       } else if (isSOL) {
         if (currency === 'BYNOMO') {
           const { transferTokenFromTreasury } = await import('@/lib/solana/backend-client');
@@ -137,12 +137,12 @@ export async function POST(request: NextRequest) {
 
     if (error) {
       console.error('Database error in withdrawal update:', error);
-      // Note: At this point the BNB has been sent!
+      // Note: At this point the ARB has been sent!
       return NextResponse.json(
         {
           success: true,
           txHash: signature,
-          warning: 'BNB sent but balance update failed. Please contact support.',
+          warning: 'ARB sent but balance update failed. Please contact support.',
           error: error.message
         },
         { status: 200 }

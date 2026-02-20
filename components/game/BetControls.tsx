@@ -42,6 +42,7 @@ export const BetControls: React.FC<BetControlsProps> = ({
         const state = useStore.getState() as any;
         return state.selectedCurrency || 'SOL';
       }
+      case 'ARB': return 'ETH';
       default: return 'BNB';
     }
   }, [network]);
@@ -53,11 +54,12 @@ export const BetControls: React.FC<BetControlsProps> = ({
     switch (network) {
       case 'SUI': return '/logos/usdc.png';
       case 'SOL': return '/logos/solana-sol-logo.png';
+      case 'ARB': return '/logos/ethereum-eth-logo.png';
       case 'BNB': return '/logos/bnb-bnb-logo.png';
       case 'NEAR': return '/logos/near-logo.svg';
       case 'XTZ': return '/logos/tezos-xtz-logo.png';
       case 'XLM': return '/logos/stellar-xlm-logo.png';
-      default: return '/logos/bnb-bnb-logo.png';
+      default: return '/logos/ethereum-eth-logo.png';
     }
   }, [network, currencySymbol]);
 
@@ -282,7 +284,7 @@ export const BetControls: React.FC<BetControlsProps> = ({
 
               <div className="pt-4 border-t border-white/5">
                 <p className="text-[9px] text-white/10 text-center uppercase tracking-[0.4em] font-black">
-                  BYNOMO v2.0 Beta · Neural Node
+                  Arbnomo v2.0 Beta · Neural Node
                 </p>
               </div>
             </div>

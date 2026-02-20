@@ -1,11 +1,11 @@
 /**
- * Main Zustand store for BYNOMO dApp
- * Combines wallet, game, and history slices
- * 
- * Note: After BNB migration, blockchain events are handled
- * by the BNB backend client for deposit/withdrawal confirmation.
- * Game logic remains off-chain.
- */
+* Main Zustand store for Arbnomo dApp
+* Combines wallet, game, and history slices
+* 
+* Note: After migration, blockchain events are handled
+* by the native chain backend client for deposit/withdrawal confirmation.
+* Game logic remains off-chain.
+*/
 
 import { create } from "zustand";
 import { WalletState, createWalletSlice } from "./walletSlice";
@@ -64,7 +64,7 @@ export const initializeStore = async (): Promise<void> => {
     };
 
 
-    console.log("BYNOMO store initialized successfully");
+    console.log("Arbnomo store initialized successfully");
   } catch (error) {
     console.error("Error initializing store:", error);
   }

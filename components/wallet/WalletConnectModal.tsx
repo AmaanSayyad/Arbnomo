@@ -22,13 +22,13 @@ export const WalletConnectModal: React.FC = () => {
     const { setOpen: openConnectKit } = useModal();
 
     const handlePrivyConnect = () => {
-        setPreferredNetwork('BNB');
+        setPreferredNetwork('ARB');
         loginPrivy();
         setOpen(false);
     };
 
     const handleWagmiConnect = () => {
-        setPreferredNetwork('BNB');
+        setPreferredNetwork('ARB');
         openConnectKit(true);
         setOpen(false);
     };
@@ -66,7 +66,7 @@ export const WalletConnectModal: React.FC = () => {
             const { NetworkType } = await import('@airgap/beacon-sdk');
 
             const wallet = new BeaconWallet({
-                name: "BYNOMO Protocol",
+                name: "Arbnomo Protocol",
                 preferredNetwork: NetworkType.MAINNET
             });
 
@@ -147,23 +147,23 @@ export const WalletConnectModal: React.FC = () => {
 
                     {/* Options */}
                     <div className="p-4 sm:p-6 space-y-2 sm:space-y-3 overflow-y-auto no-scrollbar">
-                        {/* BNB Wagmi Option */}
+                        {/* Arbitrum Wagmi Option */}
                         <button
                             onClick={handleWagmiConnect}
                             className="w-full flex items-center gap-3 sm:gap-4 p-3 sm:p-4 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl transition-all group relative overflow-hidden"
                         >
-                            <div className="absolute inset-0 bg-gradient-to-r from-yellow-500/0 via-yellow-500/5 to-yellow-500/0 opacity-0 group-hover:opacity-100 transition-opacity" />
-                            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-yellow-500/10 flex items-center justify-center border border-yellow-500/20 group-hover:scale-110 transition-transform shrink-0">
-                                <img src="/logos/bnb-bnb-logo.png" alt="BNB" className="w-6 h-6 sm:w-7 sm:h-7" />
+                            <div className="absolute inset-0 bg-gradient-to-r from-blue-500/0 via-blue-500/5 to-blue-500/0 opacity-0 group-hover:opacity-100 transition-opacity" />
+                            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-blue-500/10 flex items-center justify-center border border-blue-500/20 group-hover:scale-110 transition-transform shrink-0">
+                                <img src="/logos/arbitrum-arb-logo.png" alt="ARB" className="w-6 h-6 sm:w-7 sm:h-7" />
                             </div>
                             <div className="flex-1 text-left">
                                 <div className="flex items-center gap-2">
-                                    <span className="font-bold text-white text-sm sm:text-base">Binance Chain</span>
-                                    <span className="px-1.5 py-0.5 rounded text-[8px] sm:text-[10px] bg-yellow-500/20 text-yellow-500 font-bold uppercase tracking-wider">BNB</span>
+                                    <span className="font-bold text-white text-sm sm:text-base">Arbitrum Sepolia</span>
+                                    <span className="px-1.5 py-0.5 rounded text-[8px] sm:text-[10px] bg-blue-500/20 text-blue-500 font-bold uppercase tracking-wider">ARB</span>
                                 </div>
-                                <p className="text-[10px] sm:text-xs text-gray-400 mt-0.5">MetaMask, Trust, etc.</p>
+                                <p className="text-[10px] sm:text-xs text-gray-400 mt-0.5">MetaMask, Rabby, etc.</p>
                             </div>
-                            <Globe className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600 group-hover:text-yellow-500 transition-colors" />
+                            <Globe className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600 group-hover:text-blue-500 transition-colors" />
                         </button>
 
                         {/* Solana Option */}
@@ -284,9 +284,9 @@ export const WalletConnectModal: React.FC = () => {
                     {/* Footer */}
                     <div className="p-4 bg-white/5 text-center shrink-0">
                         <p className="text-[8px] sm:text-[10px] text-gray-500 uppercase tracking-widest font-bold">
-                            BYNOMO Protocol · Pyth Hermes
+                            Arbnomo Protocol · Pyth Hermes
                         </p>
-                        <p className="text-[9px] text-gray-600 mt-1">Powered by Pyth Hermes · BYNOMO Protocol</p>
+                        <p className="text-[9px] text-gray-600 mt-1">Powered by Pyth Hermes · Arbnomo Protocol</p>
                     </div>
                 </motion.div>
             </div>

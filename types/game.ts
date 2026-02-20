@@ -3,7 +3,7 @@
  */
 
 export type Direction = 'UP' | 'DOWN';
-export type GameMode = 'binomo' | 'box';
+export type GameMode = 'classic' | 'box';
 
 export enum TimeframeSeconds {
   Seconds5 = 5,

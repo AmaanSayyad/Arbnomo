@@ -5,7 +5,7 @@ import { useOverflowStore } from '@/lib/store';
 import { ToastProvider } from '@/components/ui/ToastProvider';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { PrivyProvider, usePrivy, useWallets } from '@privy-io/react-auth';
-import { bsc } from 'viem/chains';
+import { arbitrumSepolia } from 'viem/chains';
 import { WagmiProvider, useAccount } from 'wagmi';
 import { ConnectKitProvider } from 'connectkit';
 import { config as wagmiConfig } from '@/lib/bnb/wagmi';
@@ -108,13 +108,13 @@ function WalletSync() {
       return;
     }
 
-    // 3. Check BNB (Wagmi or Privy)
-    if (preferredNetwork === 'BNB') {
+    // 3. Check ARB (Wagmi or Privy)
+    if (preferredNetwork === 'ARB') {
       if (wagmiConnected && wagmiAddress) {
         if (address !== wagmiAddress) {
           setAddress(wagmiAddress);
           setIsConnected(true);
-          setNetwork('BNB');
+          setNetwork('ARB');
           refreshWalletBalance();
           fetchProfile(wagmiAddress);
         }
@@ -125,7 +125,7 @@ function WalletSync() {
         if (address !== addr) {
           setAddress(addr);
           setIsConnected(true);
-          setNetwork('BNB');
+          setNetwork('ARB');
           refreshWalletBalance();
           fetchProfile(addr);
         }
@@ -267,8 +267,8 @@ export function Providers({ children }: { children: React.ReactNode }) {
                 accentColor: '#A855F7',
                 showWalletLoginFirst: true,
               },
-              supportedChains: [bsc],
-              defaultChain: bsc,
+              supportedChains: [arbitrumSepolia],
+              defaultChain: arbitrumSepolia,
               embeddedWallets: {
                 createOnLogin: 'users-without-wallets',
               },

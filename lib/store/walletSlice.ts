@@ -14,8 +14,8 @@ export interface WalletState {
   walletBalance: number;
   isConnected: boolean;
   isConnecting: boolean;
-  network: 'BNB' | 'SOL' | 'SUI' | 'XLM' | 'XTZ' | 'NEAR' | null;
-  preferredNetwork: 'BNB' | 'SOL' | 'SUI' | 'XLM' | 'XTZ' | 'NEAR' | null;
+  network: 'BNB' | 'SOL' | 'SUI' | 'XLM' | 'XTZ' | 'NEAR' | 'ARB' | null;
+  preferredNetwork: 'BNB' | 'SOL' | 'SUI' | 'XLM' | 'XTZ' | 'NEAR' | 'ARB' | null;
   selectedCurrency: string | null;
   error: string | null;
   isConnectModalOpen: boolean;
@@ -30,8 +30,8 @@ export interface WalletState {
   // Setters for wallet integration
   setAddress: (address: string | null) => void;
   setIsConnected: (connected: boolean) => void;
-  setNetwork: (network: 'BNB' | 'SOL' | 'SUI' | 'XLM' | 'XTZ' | 'NEAR' | null) => void;
-  setPreferredNetwork: (network: 'BNB' | 'SOL' | 'SUI' | 'XLM' | 'XTZ' | 'NEAR' | null) => void;
+  setNetwork: (network: 'BNB' | 'SOL' | 'SUI' | 'XLM' | 'XTZ' | 'NEAR' | 'ARB' | null) => void;
+  setPreferredNetwork: (network: 'BNB' | 'SOL' | 'SUI' | 'XLM' | 'XTZ' | 'NEAR' | 'ARB' | null) => void;
   setSelectedCurrency: (currency: string | null) => void;
 }
 
@@ -46,7 +46,7 @@ export const createWalletSlice: StateCreator<WalletState> = (set, get) => ({
   isConnected: false,
   isConnecting: false,
   network: null,
-  preferredNetwork: typeof window !== 'undefined' ? localStorage.getItem('solnomo_preferred_network') as 'BNB' | 'SOL' | 'SUI' | 'XLM' | 'XTZ' | 'NEAR' | null : null,
+  preferredNetwork: typeof window !== 'undefined' ? localStorage.getItem('solnomo_preferred_network') as 'BNB' | 'SOL' | 'SUI' | 'XLM' | 'XTZ' | 'NEAR' | 'ARB' | null : null,
   selectedCurrency: null,
   error: null,
   isConnectModalOpen: false,
@@ -104,7 +104,7 @@ export const createWalletSlice: StateCreator<WalletState> = (set, get) => ({
     }
 
     try {
-      if (network === 'BNB') {
+      if (network === 'BNB' || network === 'ARB') {
         const { getBNBBalance } = await import('@/lib/bnb/client');
         const bal = await getBNBBalance(address);
         set({ walletBalance: bal });
@@ -114,10 +114,10 @@ export const createWalletSlice: StateCreator<WalletState> = (set, get) => ({
         let bal = 0;
         if (currency === 'SOL') {
           bal = await getSOLBalance(address);
-        } else if (currency === 'BYNOMO') {
-          // BYNOMO Token on Solana
-          const BYNOMO_MINT = 'Bi4NEEQhtrFdnoS9NjrXaWkQftXifh2t3RzQHSTQpump';
-          bal = await getTokenBalance(address, BYNOMO_MINT);
+        } else if (currency === 'ARB') {
+          // Arbnomo Token on Solana (legacy)
+          const ARB_MINT = 'Bi4NEEQhtrFdnoS9NjrXaWkQftXifh2t3RzQHSTQpump';
+          bal = await getTokenBalance(address, ARB_MINT);
         }
         set({ walletBalance: bal });
       } else if (network === 'SUI') {
@@ -173,14 +173,14 @@ export const createWalletSlice: StateCreator<WalletState> = (set, get) => ({
   /**
    * Set active network (BNB, SOL, SUI, XLM, XTZ or NEAR)
    */
-  setNetwork: (network: 'BNB' | 'SOL' | 'SUI' | 'XLM' | 'XTZ' | 'NEAR' | null) => {
+  setNetwork: (network: 'BNB' | 'SOL' | 'SUI' | 'XLM' | 'XTZ' | 'NEAR' | 'ARB' | null) => {
     set({ network });
   },
 
   /**
    * Set preferred network (manually chosen by user)
    */
-  setPreferredNetwork: (network: 'BNB' | 'SOL' | 'SUI' | 'XLM' | 'XTZ' | 'NEAR' | null) => {
+  setPreferredNetwork: (network: 'BNB' | 'SOL' | 'SUI' | 'XLM' | 'XTZ' | 'NEAR' | 'ARB' | null) => {
     set({ preferredNetwork: network });
     if (typeof window !== 'undefined') {
       if (network) {

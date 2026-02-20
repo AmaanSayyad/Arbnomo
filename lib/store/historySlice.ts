@@ -29,7 +29,7 @@ const MAX_STORED_BETS = 50;
  * Create history slice for Zustand store
  * Handles bet history storage and management
  */
-export const createHistorySlice: StateCreator<HistoryState> = (set, get) => ({
+export const createHistorySlice: StateCreator<HistoryState> = (set: any, get: any) => ({
   // Initial state
   bets: [],
   isLoading: false,
@@ -60,7 +60,7 @@ export const createHistorySlice: StateCreator<HistoryState> = (set, get) => ({
               endPrice: parseFloat(row.end_price) || 0,
               actualChange: (parseFloat(row.end_price) || 0) - (parseFloat(row.strike_price) || 0),
               target: {
-                id: row.mode === 'binomo' ? 'classic' : 'box',
+                id: row.mode === 'classic' ? 'classic' : 'box',
                 label: `${row.direction} ${row.multiplier}x`,
                 multiplier: parseFloat(row.multiplier) || 1.9,
                 priceChange: 0,
@@ -109,7 +109,7 @@ export const createHistorySlice: StateCreator<HistoryState> = (set, get) => ({
     const { bets } = get();
 
     // Check if bet already exists
-    const existingIndex = bets.findIndex(b => b.id === bet.id);
+    const existingIndex = bets.findIndex((b: BetRecord) => b.id === bet.id);
 
     let updatedBets: BetRecord[];
     if (existingIndex >= 0) {

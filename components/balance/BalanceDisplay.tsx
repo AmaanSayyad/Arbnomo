@@ -112,7 +112,7 @@ export const BalanceDisplay: React.FC = () => {
 
   // Current symbol for display
   const currentSymbol = network === 'SUI' ? 'USDC'
-    : (network === 'SOL' ? (selectedCurrency || 'SOL') : network === 'XLM'
+    : (network === 'SOL' ? (selectedCurrency || 'SOL') : network === 'ARB' ? 'ETH' : network === 'XLM'
       ? 'XLM' : network === 'XTZ' ? 'XTZ' : network === 'NEAR' ? 'NEAR' : 'BNB');
 
   return (
@@ -159,15 +159,15 @@ export const BalanceDisplay: React.FC = () => {
                   </button>
                   <button
                     onClick={() => {
-                      setSelectedCurrency('BYNOMO');
+                      setSelectedCurrency('ARB');
                       setTimeout(() => fetchBalance(address!), 100);
                     }}
-                    className={`px-2 py-0.5 rounded text-[8px] font-black uppercase transition-all ${selectedCurrency === 'BYNOMO'
+                    className={`px-2 py-0.5 rounded text-[8px] font-black uppercase transition-all ${selectedCurrency === 'ARB'
                       ? 'bg-purple-500 text-white shadow-lg'
                       : 'text-white/40 hover:text-white/60'
                       }`}
                   >
-                    BYNOMO
+                    ARB
                   </button>
                 </div>
               )}
@@ -217,13 +217,14 @@ export const BalanceDisplay: React.FC = () => {
                 <div className="flex items-center gap-1">
                   <img
                     src={
-                      currentSymbol === 'BYNOMO' ? '/overflowlogo.png' :
+                      currentSymbol === 'ARB' ? '/overflowlogo.png' :
                         network === 'SUI' ? '/logos/sui-logo.png' :
                           network === 'SOL' ? '/logos/solana-sol-logo.png' :
-                            network === 'XLM' ? '/logos/stellar-xlm-logo.png' :
-                              network === 'XTZ' ? '/logos/tezos-xtz-logo.png' :
-                                network === 'NEAR' ? '/logos/near-logo.svg' :
-                                  '/logos/bnb-bnb-logo.png'
+                            network === 'ARB' ? '/logos/eth-logo.png' :
+                              network === 'XLM' ? '/logos/stellar-xlm-logo.png' :
+                                network === 'XTZ' ? '/logos/tezos-xtz-logo.png' :
+                                  network === 'NEAR' ? '/logos/near-logo.svg' :
+                                    '/logos/bnb-bnb-logo.png'
                     }
                     alt={currentSymbol}
                     className="w-4 h-4 object-contain"

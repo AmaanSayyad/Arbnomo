@@ -1,20 +1,20 @@
 /**
- * BNB Smart Chain (BSC) Backend Client
+ * Arbitrum Backend Client
  * Used for administrative operations like withdrawals
  */
 
 import { ethers } from 'ethers';
-import { getBNBConfig } from './config';
+import { getARBConfig } from './config';
 
 /**
  * Get the treasury wallet for backend operations
  */
 export function getTreasuryWallet(): ethers.Wallet {
-    const config = getBNBConfig();
-    const secretKey = process.env.BNB_TREASURY_SECRET_KEY;
+    const config = getARBConfig();
+    const secretKey = process.env.ARB_TREASURY_SECRET_KEY;
 
     if (!secretKey) {
-        throw new Error('BNB_TREASURY_SECRET_KEY is not configured');
+        throw new Error('ARB_TREASURY_SECRET_KEY is not configured');
     }
 
     const provider = new ethers.JsonRpcProvider(config.rpcEndpoint);
@@ -22,15 +22,15 @@ export function getTreasuryWallet(): ethers.Wallet {
 }
 
 /**
- * Transfer BNB from treasury to a user
+ * Transfer ETH (on Arbitrum) from treasury to a user
  */
-export async function transferBNBFromTreasury(
+export async function transferARBFromTreasury(
     toAddress: string,
-    amountBNB: number
+    amountETH: number
 ): Promise<string> {
     try {
         const wallet = getTreasuryWallet();
-        const amountWei = ethers.parseEther(amountBNB.toString());
+        const amountWei = ethers.parseEther(amountETH.toString());
 
         const tx = await wallet.sendTransaction({
             to: toAddress,
@@ -43,7 +43,7 @@ export async function transferBNBFromTreasury(
 
         return tx.hash;
     } catch (error) {
-        console.error('Failed to transfer BNB from treasury:', error);
+        console.error('Failed to transfer ETH from treasury on Arbitrum:', error);
         throw error;
     }
 }

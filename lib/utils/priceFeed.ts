@@ -1,7 +1,7 @@
 /**
  * Pyth Network Price Feed Service
  * Fetches real-time crypto price data from Pyth Network
- * Supports: BTC, SUI, SOL, AND CUSTOM TOKENS (BYNOMO)
+ * Supports: BTC, ETH, SOL, ARB, and more
  */
 
 import { HermesClient } from '@pythnetwork/hermes-client';
@@ -21,6 +21,7 @@ export const PRICE_FEED_IDS = {
   XLM: '0xb7a8eba68a997cd0210c2e1e4ee811ad2d174b3611c22d9ebf16f4cb7e9ba850',
   XTZ: '0x0affd4b8ad136a21d79bc82450a325ee12ff55a235abc242666e423b8bcffd03',
   NEAR: '0xc415de8d2eba7db216527dff4b60e8f3a5311c740dadb233e13e12547e226750',
+  ARB: '0x3fa4252848f9f0a1480be6275a4629d9eb1322aebab8a791e344b3b9c1adcf5',
   // Metals
   GOLD: '0x765d2ba906dbc32ca17cc11f5310a89e9ee1f6420508c63861f2f8ba4ee34bb2',
   SILVER: '0xf2fb02c32b055c805e7238d628e5e9dadef274376114eb1f012337cabe93871e',
@@ -41,11 +42,7 @@ export const PRICE_FEED_IDS = {
   NFLX: '0x8376cfd7ca8bcdf372ced05307b24dced1f15b1afafdeff715664598f15a3dd2',
 } as const;
 
-export const CUSTOM_TOKENS = {
-  BYNOMO: 'Bi4NEEQhtrFdnoS9NjrXaWkQftXifh2t3RzQHSTQpump'
-} as const;
-
-export type AssetType = keyof typeof PRICE_FEED_IDS | keyof typeof CUSTOM_TOKENS;
+export type AssetType = keyof typeof PRICE_FEED_IDS;
 
 // Pyth Hermes API endpoint (public, free to use)
 const HERMES_ENDPOINT = 'https://hermes.pyth.network';
@@ -74,25 +71,6 @@ export class PythPriceFeed {
    */
   async fetchPrice(): Promise<PriceData> {
     try {
-      if (this.asset === 'BYNOMO') {
-        const response = await fetch(`https://api.dexscreener.com/latest/dex/tokens/${CUSTOM_TOKENS.BYNOMO}`, {
-          signal: AbortSignal.timeout(5000)
-        });
-        if (!response.ok) throw new Error('DexScreener API error');
-        const data = await response.json();
-        if (data.pairs && data.pairs.length > 0) {
-          const priceUsd = parseFloat(data.pairs[0].priceUsd);
-          this.lastPrice = priceUsd;
-          return {
-            price: priceUsd,
-            confidence: 0,
-            timestamp: Date.now() / 1000,
-            expo: -8
-          };
-        }
-        throw new Error('No pairs found for BYNOMO');
-      }
-
       // Default Pyth logic
       const assetId = (PRICE_FEED_IDS as any)[this.asset];
       const id = assetId.startsWith('0x') ? assetId : `0x${assetId}`;
@@ -185,20 +163,7 @@ export class PythPriceFeed {
         }
       }
 
-      // 2. BYNOMO (DexScreener)
-      try {
-        const bynomoRes = await fetch(`https://api.dexscreener.com/latest/dex/tokens/${CUSTOM_TOKENS.BYNOMO}`, {
-          signal: AbortSignal.timeout(5000) // 5s timeout
-        });
-        if (bynomoRes.ok) {
-          const data = await bynomoRes.json();
-          if (data.pairs && data.pairs.length > 0) {
-            results.BYNOMO = parseFloat(data.pairs[0].priceUsd);
-          }
-        }
-      } catch (tokenErr) {
-        // Quietly fail for custom tokens to avoid console spam
-      }
+      // Only Pyth is used now
     } catch (err) {
       console.error('Error in fetchAllPrices:', err);
     }
@@ -245,7 +210,7 @@ export class MockPriceFeed {
 
   constructor(asset: AssetType = 'BTC', basePrice?: number, volatility: number = 0.001, trend: number = 0) {
     this.asset = asset;
-    const defaults: Record<string, number> = { BTC: 50000, BNB: 600, BYNOMO: 0.1 };
+    const defaults: Record<string, number> = { BTC: 50000, BNB: 600, ARB: 1.5 };
     this.basePrice = basePrice || defaults[asset] || 1;
     this.volatility = volatility;
     this.trend = trend;

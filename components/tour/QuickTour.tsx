@@ -54,9 +54,9 @@ export const QuickTour: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ 
     const [targetRect, setTargetRect] = useState<DOMRect | null>(null);
 
     // Use specific selectors for stability
-    const isConnected = useStore(state => state.isConnected);
-    const setActiveTab = useStore(state => state.setActiveTab);
-    const setGameMode = useStore(state => state.setGameMode);
+    const isConnected = useStore((state: any) => state.isConnected);
+    const setActiveTab = useStore((state: any) => state.setActiveTab);
+    const setGameMode = useStore((state: any) => state.setGameMode);
 
     // Memoize steps to prevent infinite loops
     const steps: TourStep[] = useMemo(() => [
@@ -126,7 +126,7 @@ export const QuickTour: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ 
             // Since we don't have setIsPanelOpen in store, we hope the component handles it
         }
 
-        if (step.target === '[data-tour="classic-mode"]') setGameMode('binomo');
+        if (step.target === '[data-tour="classic-mode"]') setGameMode('classic');
         if (step.target === '[data-tour="box-mode"]') setGameMode('box');
         if (step.target === '[data-tour="wallet-tab"]') setActiveTab('bet');
         if (step.target === '[data-tour="deposit-section"]') setActiveTab('wallet');
