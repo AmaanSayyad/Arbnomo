@@ -653,6 +653,9 @@ export const createGameSlice: StateCreator<any> = (set: any, get: any) => ({
         } else if (accountType === 'demo') {
           updateBalance(payout, 'add');
         }
+      } else if (accountType === 'real' && address) {
+        // Sync house balance after a loss (already deducted at bet placement)
+        if (fetchBalance) fetchBalance(address);
       }
 
       // Also add to persistent local history store

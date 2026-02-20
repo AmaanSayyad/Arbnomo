@@ -40,6 +40,7 @@ function WalletSync() {
     setNetwork,
     refreshWalletBalance,
     fetchProfile,
+    fetchBalance,
     preferredNetwork
   } = useOverflowStore();
 
@@ -89,6 +90,7 @@ function WalletSync() {
           setNetwork('ARB');
           refreshWalletBalance();
           fetchProfile(wagmiAddress);
+          fetchBalance(wagmiAddress);
         }
         return;
       }
@@ -100,6 +102,7 @@ function WalletSync() {
           setNetwork('ARB');
           refreshWalletBalance();
           fetchProfile(addr);
+          fetchBalance(addr);
         }
         return;
       }
@@ -163,7 +166,7 @@ function WalletSync() {
     suiAccount,
     wagmiAddress, wagmiConnected,
     preferredNetwork, address, accountType,
-    setAddress, setIsConnected, setNetwork, refreshWalletBalance, fetchProfile
+    setAddress, setIsConnected, setNetwork, refreshWalletBalance, fetchProfile, fetchBalance
   ]);
 
   return null;
