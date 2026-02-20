@@ -244,7 +244,7 @@ export const DepositModal: React.FC<DepositModalProps> = ({
         }
 
         const gasPrice = await publicClient?.getGasPrice();
-        // Add 50% buffer to gas price to handle rapid block changes on Arbitrum
+        // Add 50% buffer to gas price to handle rapid block changes on Arbitrum Sepolia
         const adjustedGasPrice = gasPrice ? (gasPrice * BigInt(150)) / BigInt(100) : undefined;
 
         toast.info('Please confirm the transaction in your wallet...');

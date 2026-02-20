@@ -1,5 +1,5 @@
 /**
- * Arbitrum SDK Integration Module
+ * Arbitrum Sepolia SDK Integration Module
  */
 
 import { ethers } from 'ethers';
@@ -9,7 +9,7 @@ import { getARBConfig } from './config';
 let provider: ethers.JsonRpcProvider | null = null;
 
 /**
- * Get or create an Arbitrum provider instance
+ * Get or create an Arbitrum Sepolia provider instance
  */
 export function getARBProvider(): ethers.JsonRpcProvider {
     if (!provider) {
@@ -20,7 +20,7 @@ export function getARBProvider(): ethers.JsonRpcProvider {
 }
 
 /**
- * Get ETH balance for a given address on Arbitrum
+ * Get ETH balance for a given address on Arbitrum Sepolia
  */
 export async function getARBBalance(address: string): Promise<number> {
     const provider = getARBProvider();

@@ -115,7 +115,7 @@ export default function LeaderboardPage() {
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.6, delay: 0.2 }}
                             className="text-white/30 text-sm font-bold uppercase tracking-widest leading-relaxed max-w-xl">
-                            The elite traders of the BYNOMO protocol. Ranked by net profit on the Arbitrum network.
+                            The elite traders of the Arbnomo protocol. Ranked by net profit on Arbitrum Sepolia.
                         </motion.p>
                     </div>
 

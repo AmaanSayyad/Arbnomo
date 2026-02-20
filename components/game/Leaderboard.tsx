@@ -224,7 +224,7 @@ export const Leaderboard: React.FC = () => {
                             {/* Footer */}
                             <div className="mt-2 sm:mt-3 pt-2 sm:pt-3 border-t border-white/5">
                                 <p className="text-[8px] sm:text-[9px] text-gray-600 text-center font-medium">
-                                    Arbitrum players ranked by net profit
+                                    Arbitrum Sepolia players ranked by net profit
                                 </p>
                             </div>
                         </motion.div>

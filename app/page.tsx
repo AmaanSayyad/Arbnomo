@@ -13,7 +13,7 @@ const steps = [
     {
         id: "01",
         title: "Hybrid Custody",
-        desc: "Arbitrum-speed performance with non-custodial security. Arbnomo connects your wallet to a high-speed house balance for instant execution without gas lag."
+        desc: "Arbitrum Sepolia performance with non-custodial security. Arbnomo connects your wallet to a high-speed house balance for instant execution without gas lag."
     },
     {
         id: "02",

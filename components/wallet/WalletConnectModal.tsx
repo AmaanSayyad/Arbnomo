@@ -80,7 +80,7 @@ export const WalletConnectModal: React.FC = () => {
                 useOverflowStore.getState().setIsConnected(true);
                 // Fetch Tezos mainnet XTZ balance
                 useOverflowStore.getState().refreshWalletBalance();
-                // Fetch Bynomo house balance for Tezos
+                // Fetch Arbnomo house balance for Tezos
                 useOverflowStore.getState().fetchBalance(address);
             }
         } catch (error) {
@@ -147,7 +147,7 @@ export const WalletConnectModal: React.FC = () => {
 
                     {/* Options */}
                     <div className="p-4 sm:p-6 space-y-2 sm:space-y-3 overflow-y-auto no-scrollbar">
-                        {/* Arbitrum Wagmi Option */}
+                        {/* Arbitrum Sepolia Wagmi Option */}
                         <button
                             onClick={handleWagmiConnect}
                             className="w-full flex items-center gap-3 sm:gap-4 p-3 sm:p-4 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl transition-all group relative overflow-hidden"

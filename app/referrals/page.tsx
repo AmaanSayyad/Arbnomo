@@ -34,7 +34,7 @@ export default function ReferralPage() {
 
     useEffect(() => {
         if (referralCode && typeof window !== 'undefined') {
-            setReferralLink(`https://bynomo.fun/?ref=${referralCode}`);
+            setReferralLink(`https://arbnomo.fun/?ref=${referralCode}`);
         }
     }, [referralCode]);
 

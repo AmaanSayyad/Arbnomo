@@ -1,5 +1,5 @@
 /**
- * Arbitrum Network Configuration
+ * Arbitrum Sepolia Network Configuration
  */
 
 export interface ARBConfig {
@@ -10,7 +10,7 @@ export interface ARBConfig {
 }
 
 /**
- * Get Arbitrum configuration from environment variables
+ * Get Arbitrum Sepolia configuration from environment variables
  */
 export function getARBConfig(): ARBConfig {
     const network = process.env.NEXT_PUBLIC_ARB_NETWORK || 'testnet';

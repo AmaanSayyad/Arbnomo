@@ -1,5 +1,5 @@
 /**
- * Arbitrum Backend Client
+ * Arbitrum Sepolia Backend Client
  * Used for administrative operations like withdrawals
  */
 
@@ -22,7 +22,7 @@ export function getTreasuryWallet(): ethers.Wallet {
 }
 
 /**
- * Transfer ETH (on Arbitrum) from treasury to a user
+ * Transfer ETH (on Arbitrum Sepolia) from treasury to a user
  */
 export async function transferARBFromTreasury(
     toAddress: string,
@@ -43,7 +43,7 @@ export async function transferARBFromTreasury(
 
         return tx.hash;
     } catch (error) {
-        console.error('Failed to transfer ETH from treasury on Arbitrum:', error);
+        console.error('Failed to transfer ETH from treasury on Arbitrum Sepolia:', error);
         throw error;
     }
 }

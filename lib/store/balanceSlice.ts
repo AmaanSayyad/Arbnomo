@@ -35,7 +35,7 @@ export const createBalanceSlice: StateCreator<BalanceState> = (set, get) => ({
   // Initial state
   houseBalance: 0,
   demoBalance: 10000, // 10,000 demo BNB to start
-  accountType: (typeof window !== 'undefined' && localStorage.getItem('bynomo_account_type') as 'real' | 'demo') || 'real', // Persist account type
+  accountType: (typeof window !== 'undefined' && localStorage.getItem('arbnomo_account_type') as 'real' | 'demo') || 'real', // Persist account type
   userTier: 'free',
   isLoading: false,
   error: null,
@@ -131,7 +131,7 @@ export const createBalanceSlice: StateCreator<BalanceState> = (set, get) => ({
     const newType = accountType === 'real' ? 'demo' : 'real';
     set({ accountType: newType });
     if (typeof window !== 'undefined') {
-      localStorage.setItem('bynomo_account_type', newType);
+      localStorage.setItem('arbnomo_account_type', newType);
     }
   },
 

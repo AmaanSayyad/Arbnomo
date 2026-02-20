@@ -25,18 +25,13 @@ export const metadata: Metadata = {
   metadataBase: new URL('https://arbnomo.fun'),
   title: "Arbnomo - Trade over 300+ Crypto, Stocks, Metals and Forex with 5s-1m time-charts",
   description:
-    "The first Arbitrum on-chain binary options trading dapp. Powered by Pyth Hermes price attestations, Supabase, and x402-style payments. Oracle-bound resolution, minimal trust.",
+    "The first Arbitrum Sepolia on-chain binary options trading dapp. Powered by Pyth Hermes price attestations, Supabase, and x402-style payments. Oracle-bound resolution, minimal trust.",
   keywords: [
     "binary options",
     "crypto trading",
     "Pyth oracle",
-    "Arbitrum",
+    "Arbitrum Sepolia",
     "ETH",
-    "Solana",
-    "Sui",
-    "Stellar",
-    "Tezos",
-    "NEAR",
     "Web3",
     "prediction",
   ],
@@ -48,13 +43,13 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Arbnomo — Trade over 300+ Crypto, Stocks, Metals and Forex with 5s-1m time-charts",
     description:
-      "The first Arbitrum on-chain binary options trading dapp. Powered by Pyth Hermes price attestations, Supabase, and x402-style payments. Oracle-bound resolution, minimal trust",
+      "The first Arbitrum Sepolia on-chain binary options trading dapp. Powered by Pyth Hermes price attestations, Supabase, and x402-style payments. Oracle-bound resolution, minimal trust",
     images: [{ url: '/overflowlogo.png', width: 512, height: 512, alt: 'Arbnomo' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: "Arbnomo — Trade over 300+ Crypto, Stocks, Metals and Forex with 5s-1m time-charts",
-    description: "Trade binary options with oracle-bound resolution and minimal trust on Arbitrum.",
+    description: "Trade binary options with oracle-bound resolution and minimal trust on Arbitrum Sepolia.",
     images: ['/overflowlogo.png'],
   },
 };

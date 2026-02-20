@@ -87,13 +87,13 @@ export default function ProfilePage() {
 
     useEffect(() => {
         if (username) {
-            setNewUsername(username.replace('.bynomo', ''));
+            setNewUsername(username.replace('.arbnomo', ''));
         }
     }, [username]);
 
     const handleUpdateUsername = async () => {
         if (!address || !newUsername) return;
-        const formattedUsername = `${newUsername.toLowerCase()}.bynomo`;
+        const formattedUsername = `${newUsername.toLowerCase()}.arbnomo`;
         const success = await updateUsername(address, formattedUsername);
         if (success) {
             setIsEditing(false);
