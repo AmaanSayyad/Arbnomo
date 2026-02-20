@@ -18,7 +18,7 @@ const steps = [
     {
         id: "02",
         title: "Multi-Asset Feed",
-        desc: "Trade more than just crypto. Predict millisecond movements on Bitcoin, Solana, Gold, and Tech giants like NVDA and TSLA via Pyth Fixed Oracles."
+        desc: "Trade more than just crypto. Predict millisecond movements on Bitcoin, ETH, Gold, and Tech giants like NVDA and TSLA via Pyth Fixed Oracles."
     },
     {
         id: "03",
@@ -68,11 +68,11 @@ const testimonials = [
 const faqs = [
     {
         question: "How does the House Balance work?",
-        answer: "To ensure millisecond execution, Arbnomo uses a hybrid house balance system. You deposit SOL or ETH into a non-custodial treasury, which is then reflected in your game balance for instant off-chain betting."
+        answer: "To ensure millisecond execution, Arbnomo uses a hybrid house balance system. You deposit ETH into a non-custodial treasury on Arbitrum Sepolia, which is then reflected in your game balance for instant off-chain betting."
     },
     {
         question: "What assets can I trade?",
-        answer: "Arbnomo supports a wide range of assets including major cryptos (BTC, ETH, SOL), precious metals (Gold, Silver), and top-tier stocks (AAPL, NVDA, TSLA) through Pyth price feeds."
+        answer: "Arbnomo supports a wide range of assets including major cryptos (BTC, ETH, ARB), precious metals (Gold, Silver), and top-tier stocks (AAPL, NVDA, TSLA) through Pyth price feeds."
     },
     {
         question: "What are Blitz Rounds?",

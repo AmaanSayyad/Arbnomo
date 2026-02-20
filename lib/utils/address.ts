@@ -24,13 +24,13 @@ export const isValidAddress = async (address: string): Promise<boolean> => {
     if (/^(([a-z\d]+[-_])*[a-z\d]+\.)*([a-z\d]+[-_])*[a-z\d]+$/.test(address)) return true;
     if (/^[0-9a-fA-F]{64}$/.test(address)) return true;
 
-    // 6. Solana (SOL) - Base58 string
+    // 6. Legacy chain (e.g. Base58) - for backward compatibility
     try {
         const { PublicKey } = await import('@solana/web3.js');
         const pk = new PublicKey(address);
         return pk.toBuffer().length === 32;
     } catch (e) {
-        // Not a valid Solana address
+        // Not a valid legacy address format
     }
 
     return false;

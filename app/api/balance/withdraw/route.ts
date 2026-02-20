@@ -48,12 +48,32 @@ export async function POST(request: NextRequest) {
     }
 
     // 1. Get house balance and status from Supabase and validate
-    const { data: userData, error: userError } = await supabase
+    // For Arbitrum Sepolia, support both 'ARB' and 'ETH' (native asset is ETH)
+    let resolvedCurrency = currency;
+    let result = await supabase
       .from('user_balances')
       .select('balance, status')
       .eq('user_address', userAddress)
       .eq('currency', currency)
       .single();
+
+    let userData = result.data;
+    let userError = result.error;
+
+    if ((userError || !userData) && (currency === 'ARB' || currency === 'ETH')) {
+      const fallbackCurrency = currency === 'ARB' ? 'ETH' : 'ARB';
+      const fallback = await supabase
+        .from('user_balances')
+        .select('balance, status')
+        .eq('user_address', userAddress)
+        .eq('currency', fallbackCurrency)
+        .single();
+      if (!fallback.error && fallback.data) {
+        userData = fallback.data;
+        userError = null;
+        resolvedCurrency = fallbackCurrency;
+      }
+    }
 
     if (userError || !userData) {
       return NextResponse.json({ error: 'User record not found' }, { status: 404 });
@@ -67,8 +87,10 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Account is banned.' }, { status: 403 });
     }
 
-    if (userData.balance < amount) {
-      return NextResponse.json({ error: `Insufficient house balance in ${currency}` }, { status: 400 });
+    const balance = Number(userData.balance);
+    const epsilon = 1e-9;
+    if (balance < amount - epsilon) {
+      return NextResponse.json({ error: `Insufficient house balance in ${resolvedCurrency}` }, { status: 400 });
     }
 
     // 2. Apply 2% Treasury Fee
@@ -76,7 +98,7 @@ export async function POST(request: NextRequest) {
     const feeAmount = amount * feePercent;
     const netWithdrawAmount = amount - feeAmount;
 
-    console.log(`Withdrawal Request: Total=${amount}, Fee=${feeAmount}, Net=${netWithdrawAmount}, Currency=${currency}`);
+    console.log(`Withdrawal Request: Total=${amount}, Fee=${feeAmount}, Net=${netWithdrawAmount}, Currency=${resolvedCurrency}`);
 
     // 3. Perform transfer from treasury (Arbitrum Sepolia only)
     let signature: string;
@@ -91,7 +113,7 @@ export async function POST(request: NextRequest) {
     const { data, error } = await supabase.rpc('update_balance_for_withdrawal', {
       p_user_address: userAddress,
       p_withdrawal_amount: amount,
-      p_currency: currency,
+      p_currency: resolvedCurrency,
       p_transaction_hash: signature,
     });
 

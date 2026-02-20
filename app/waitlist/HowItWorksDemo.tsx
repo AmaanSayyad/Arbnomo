@@ -6,11 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 // --- Assets / Icons ---
 // Reused from previous code
 const CHAINS = [
-    { name: 'Solana', id: 'SOL', color: '#9945FF', logo: '/logos/solana-sol-logo.png' },
-    { name: 'Sui', id: 'SUI', color: '#4DA2FF', logo: '/logos/sui-logo.png' },
-    { name: 'Near', id: 'NEAR', color: '#000000', logo: '/logos/near-logo.svg', bg: 'white' },
-    { name: 'BNB', id: 'BNB', color: '#F3BA2F', logo: '/logos/bnb-bnb-logo.png' },
-    { name: 'Stellar', id: 'XLM', color: '#7D00FF', logo: '/logos/stellar-xlm-logo.png' },
+    { name: 'Arbitrum Sepolia', id: 'ARB', color: '#28A0F0', logo: '/arbitrum-arb-logo.png' },
 ];
 
 export default function HowItWorksDemo() {
@@ -19,7 +15,7 @@ export default function HowItWorksDemo() {
     const features = [
         {
             title: "Multi-Chain Access",
-            desc: "Connect instantly with Solana, Sui, Near, BNB, or Stellar. No bridging required.",
+            desc: "Connect instantly with Arbitrum Sepolia. No bridging required.",
             component: <ChainSelectVisual />
         },
         {
@@ -265,7 +261,7 @@ function SettlementVisual() {
                     <div className="flex-1">
                         <div className="text-[10px] text-gray-500 uppercase font-bold tracking-wider mb-1">Total Payout</div>
                         <div className="text-2xl font-mono text-white font-bold flex items-center gap-2">
-                            +1.95 <span className="text-purple-400 text-sm">SOL</span>
+                            +1.95 <span className="text-purple-400 text-sm">ETH</span>
                         </div>
                     </div>
                     <div className="px-3 py-1 bg-green-500/10 border border-green-500/20 rounded text-[10px] text-green-400 font-bold uppercase tracking-wider">

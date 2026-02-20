@@ -104,7 +104,7 @@ flowchart LR
 2. **Deposit** — Send ETH from your wallet to the Arbnomo treasury. Your house balance is credited instantly.
 3. **Place bet** — Choose **Classic** (up/down + expiry) or **Box** (tap tiles with multipliers). No on-chain tx per bet.
 4. **Resolution** — Pyth Hermes provides the price at expiry; win/loss is applied to your house balance.
-5. **Withdraw** — Request withdrawal; ETH is sent from the treasury to your wallet on Arbitrum.
+5. **Withdraw** — Request withdrawal; ETH is sent from the treasury to your wallet on Arbitrum Sepolia.
 
 ---
 
@@ -200,7 +200,7 @@ flowchart TD
 
 - Node.js 18+
 - Yarn (or npm)
-- An Arbitrum Sepolia wallet (e.g. MetaMask) and some ETH on Arbitrum
+- An Arbitrum Sepolia wallet (e.g. MetaMask) and some ETH on Arbitrum Sepolia (e.g. from a faucet)
 - Supabase project
 
 ### 1. Clone and install
@@ -254,6 +254,6 @@ Open [http://localhost:3000](http://localhost:3000); the app redirects to `/trad
 
 Arbnomo is built for **Arbitrum Sepolia**:
 
-- Deposits and withdrawals are ETH transfers on Arbitrum Sepolia.
-- Treasury is an EOA on Arbitrum Sepolia; no custom contract required for core flow.
-- Wallet connection via ConnectKit (MetaMask, etc.) and Privy.
+- **ETH only** — Deposits and withdrawals are native ETH transfers. House balance is tracked in ETH.
+- **Treasury** — An EOA on Arbitrum Sepolia; no custom contract required for core flow.
+- **Wallets** — Connect via ConnectKit (MetaMask, Rabby, etc.) or Privy.

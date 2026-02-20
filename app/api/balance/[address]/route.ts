@@ -24,7 +24,7 @@ export async function GET(
     const { searchParams } = new URL(request.url);
     const currency = searchParams.get('currency') || 'BNB';
 
-    // Validate address (support BNB, Solana, Sui, Stellar and Tezos)
+    // Validate address (Arbitrum Sepolia EVM and legacy formats)
     let isValid = false;
 
     // Check if it's a valid EVM address (BNB)
@@ -37,7 +37,7 @@ export async function GET(
       // Check if it's a valid Tezos address
       isValid = true;
     } else {
-      // Check if it's a valid Solana address
+      // Check if it's a valid legacy chain address
       try {
         const { PublicKey } = await import('@solana/web3.js');
         const pk = new PublicKey(address);
@@ -57,7 +57,7 @@ export async function GET(
 
     if (!isValid) {
       return NextResponse.json(
-        { error: 'Invalid wallet address format (BNB, Solana, Sui, Stellar, Tezos or NEAR required)' },
+        { error: 'Invalid wallet address format. Arbitrum Sepolia (EVM) address required.' },
         { status: 400 }
       );
     }

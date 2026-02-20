@@ -51,6 +51,7 @@ export const createBalanceSlice: StateCreator<BalanceState> = (set, get) => ({
     let network = (get() as any).network || 'BNB';
     const selectedCurrency = (get() as any).selectedCurrency;
     let currency = (network === 'SOL' && selectedCurrency) ? selectedCurrency : network;
+    if (network === 'ARB') currency = 'ETH';
 
     if (address && (address.endsWith('.near') || address.endsWith('.testnet') || /^[0-9a-fA-F]{64}$/.test(address))) {
       currency = 'NEAR';
@@ -146,6 +147,7 @@ export const createBalanceSlice: StateCreator<BalanceState> = (set, get) => ({
     let network = (get() as any).network || 'BNB';
     const selectedCurrency = (get() as any).selectedCurrency;
     let currency = (network === 'SOL' && selectedCurrency) ? selectedCurrency : network;
+    if (network === 'ARB') currency = 'ETH';
 
     // Override network for NEAR addresses
     if (address.endsWith('.near') || address.endsWith('.testnet') || /^[0-9a-fA-F]{64}$/.test(address)) {
@@ -204,7 +206,8 @@ export const createBalanceSlice: StateCreator<BalanceState> = (set, get) => ({
   withdrawFunds: async (address: string, amount: number) => {
     const network = (get() as any).network || 'BNB';
     const selectedCurrency = (get() as any).selectedCurrency;
-    const currency = (network === 'SOL' && selectedCurrency) ? selectedCurrency : network;
+    let currency = (network === 'SOL' && selectedCurrency) ? selectedCurrency : network;
+    if (network === 'ARB') currency = 'ETH';
 
     try {
       set({ isLoading: true, error: null });
