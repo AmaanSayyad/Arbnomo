@@ -131,12 +131,12 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const result = data as { success: boolean; error: string | null; new_balance: number };
+    const rpcResult = data as { success: boolean; error: string | null; new_balance: number };
 
     return NextResponse.json({
       success: true,
       txHash: signature,
-      newBalance: result.new_balance,
+      newBalance: rpcResult.new_balance,
     });
   } catch (error) {
     console.error('Unexpected error in POST /api/balance/withdraw:', error);
