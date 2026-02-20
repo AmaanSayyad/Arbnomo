@@ -32,8 +32,10 @@ export default function ReferralPage() {
         }
     }, [isConnected, address, fetchReferralInfo]);
 
-    // Normalize display: show arbnomo- prefix (legacy DB may have binomo-)
-    const displayCode = referralCode ? referralCode.replace(/^binomo-/, 'arbnomo-') : null;
+    // Normalize display: show arbnomo- prefix (legacy DB may have bynomo- or binomo-)
+    const displayCode = referralCode
+      ? referralCode.replace(/^bynomo-/, 'arbnomo-').replace(/^binomo-/, 'arbnomo-')
+      : null;
 
     useEffect(() => {
         if (displayCode && typeof window !== 'undefined') {

@@ -71,11 +71,14 @@ export const createReferralSlice: StateCreator<ReferralState> = (set, get) => ({
         let referredByAddress = null;
 
         if (referredByCode) {
-            // Try exact code first, then legacy binomo- if ref came as arbnomo-
+            // Try exact code first, then legacy bynomo-/binomo- if ref came as arbnomo-
             const codesToTry = [referredByCode];
             if (referredByCode.startsWith('arbnomo-')) {
-                codesToTry.push('binomo-' + referredByCode.slice(8));
+                const suffix = referredByCode.slice(8);
+                codesToTry.push('bynomo-' + suffix, 'binomo-' + suffix);
             } else if (referredByCode.startsWith('binomo-')) {
+                codesToTry.push('arbnomo-' + referredByCode.slice(7));
+            } else if (referredByCode.startsWith('bynomo-')) {
                 codesToTry.push('arbnomo-' + referredByCode.slice(7));
             }
             for (const code of codesToTry) {

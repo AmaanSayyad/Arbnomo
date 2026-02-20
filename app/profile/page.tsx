@@ -80,6 +80,11 @@ export default function ProfilePage() {
     const currentTierData = TIER_DATA[safeTierIndex];
     const nextTier = TIER_DATA[safeTierIndex + 1];
 
+    // Normalize referral code display: bynomo-/binomo- -> arbnomo-
+    const displayReferralCode = referralCode
+      ? referralCode.replace(/^bynomo-/, 'arbnomo-').replace(/^binomo-/, 'arbnomo-')
+      : null;
+
     const [isTierModalOpen, setIsTierModalOpen] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
     const [newUsername, setNewUsername] = useState('');
@@ -278,12 +283,12 @@ export default function ProfilePage() {
                                 <div className="space-y-5">
                                     <h2 className="text-[10px] font-black uppercase tracking-[0.4em] text-white/20">Node Protocol</h2>
                                     <div className="p-4 bg-white/[0.03] border border-white/10 rounded-xl flex items-center justify-between">
-                                        <span className="font-mono font-black text-lg tracking-widest text-white/80">{referralCode || '---'}</span>
-                                        <button onClick={() => copyToClipboard(referralCode || '', 'Code')} className="text-white/20 hover:text-white transition-all">
+                                        <span className="font-mono font-black text-lg tracking-widest text-white/80">{displayReferralCode || '---'}</span>
+                                        <button onClick={() => copyToClipboard(displayReferralCode || '', 'Code')} className="text-white/20 hover:text-white transition-all">
                                             {copySuccess === 'Code' ? <Check className="w-4 h-4 text-emerald-400" /> : <LinkIcon className="w-4 h-4" />}
                                         </button>
                                     </div>
-                                    <button onClick={() => window.open(`https://twitter.com/intent/tweet?text=Join ARBNOMO: ${referralCode}`, '_blank')} className="w-full py-4 bg-white text-black rounded-xl text-[9px] font-black uppercase tracking-[0.2em] hover:bg-gray-200 transition-all">
+                                    <button onClick={() => window.open(`https://twitter.com/intent/tweet?text=Join ARBNOMO: ${displayReferralCode}`, '_blank')} className="w-full py-4 bg-white text-black rounded-xl text-[9px] font-black uppercase tracking-[0.2em] hover:bg-gray-200 transition-all">
                                         Share Access
                                     </button>
                                 </div>
