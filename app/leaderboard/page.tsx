@@ -213,7 +213,7 @@ export default function LeaderboardPage() {
                                             <td className="px-10 py-8 text-right">
                                                 <div className="space-y-1">
                                                     <p className={`text-xl font-black font-mono tracking-tighter ${entry.net_profit >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
-                                                        {entry.net_profit >= 0 ? '+' : ''}{entry.net_profit.toFixed(2)}
+                                                        {entry.net_profit >= 0 ? '+' : ''}{entry.net_profit.toFixed(4)}
                                                     </p>
                                                     <p className="text-[10px] font-black text-white/20 uppercase tracking-widest">
                                                         {getCurrencySymbol(entry.primary_network)}

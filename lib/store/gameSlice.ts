@@ -696,7 +696,8 @@ export const createGameSlice: StateCreator<any> = (set: any, get: any) => ({
             multiplier: resolvedBet.multiplier,
             priceChange: 0,
             direction: resolvedBet.direction
-          }
+          },
+          network: resolvedBet.network || network || 'BNB'
         });
       }
 

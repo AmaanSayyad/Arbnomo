@@ -65,15 +65,33 @@ export default function ProfilePage() {
         referralCount,
         accessCode,
         network,
-        fetchRecentTrades
+        fetchRecentTrades,
+        bets,
+        fetchHistory
     } = useStore();
 
-    // Fetch recent trades on mount
+    // Fetch recent trades and historical stats on mount
     useEffect(() => {
         if (isConnected && address) {
             fetchRecentTrades(address);
+            fetchHistory(address);
         }
-    }, [isConnected, address, fetchRecentTrades]);
+    }, [isConnected, address, fetchRecentTrades, fetchHistory]);
+
+    // Calculate trading statistics
+    const stats = React.useMemo(() => {
+        const settledBets = bets.filter((bet: any) => (parseFloat(bet.endPrice) || 0) > 0 || bet.won);
+        const wins = settledBets.filter((bet: any) => bet.won).length;
+        const losses = settledBets.filter((bet: any) => !bet.won).length;
+        const totalWagered = settledBets.reduce((sum: number, bet: any) => sum + (parseFloat(bet.amount) || 0), 0);
+        const totalPayout = settledBets.reduce((sum: number, bet: any) => sum + (bet.won ? (parseFloat(bet.payout) || 0) : 0), 0);
+        return {
+            total: settledBets.length,
+            wins,
+            losses,
+            profit: totalPayout - totalWagered
+        };
+    }, [bets]);
 
     const currentTierIndex = TIER_DATA.findIndex(t => t.id === userTier);
     const safeTierIndex = currentTierIndex === -1 ? 0 : currentTierIndex;
@@ -191,7 +209,7 @@ export default function ProfilePage() {
                     <div className="flex items-center gap-4">
                         <div className="text-right">
                             <p className="text-[9px] font-black uppercase tracking-[0.2em] text-white/20 mb-1">Treasury Balance</p>
-                            <p className="text-xl font-bold font-mono">{houseBalance.toFixed(2)} <span className="text-xs text-white/40">{network}</span></p>
+                            <p className="text-xl font-bold font-mono">{houseBalance.toFixed(4)} <span className="text-xs text-white/40">{network}</span></p>
                         </div>
                         <div className="w-[1px] h-10 bg-white/5 mx-2 hidden md:block" />
                         <Link href="/referrals" className="px-5 py-3 bg-white text-black text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-gray-200 transition-all active:scale-95 shadow-xl">
@@ -205,14 +223,14 @@ export default function ProfilePage() {
                 {/* Highlights Grid - Enhanced with Tier Info */}
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
                     <StatCard label="Total Refs" value={referralCount} icon={UserIcon} />
-                    <StatCard label="Protocol Status" value="Online" status="emerald" icon={Activity} />
-                    <StatCard label="Region" value="Global" icon={LayoutGrid} />
-                    <StatCard label="Uptime" value="100%" icon={Zap} />
+                    <StatCard label="Total Trades" value={stats.total} icon={Activity} />
+                    <StatCard label="Total Wins" value={stats.wins} icon={Trophy} status="emerald" />
+                    <StatCard label="Total Losses" value={stats.losses} icon={History} />
                     <StatCard
-                        label="Governance"
-                        value={userTier.toUpperCase()}
-                        icon={Shield}
-                        status="emerald"
+                        label="Net Profit"
+                        value={`${stats.profit >= 0 ? '+' : ''}${stats.profit.toFixed(4)}`}
+                        icon={Zap}
+                        status={stats.profit >= 0 ? 'emerald' : undefined}
                         clickable
                         purple
                         onClick={() => setIsTierModalOpen(true)}
@@ -258,10 +276,10 @@ export default function ProfilePage() {
                                                         {trade.direction}
                                                     </span>
                                                 </td>
-                                                <td className="px-6 py-4 font-mono text-[10px] text-white/30">{trade.amount.toFixed(2)}</td>
+                                                <td className="px-6 py-4 font-mono text-[10px] text-white/30">{(parseFloat(trade.amount) || 0).toFixed(4)}</td>
                                                 <td className="px-6 py-4 text-right font-black text-xs">
                                                     <span className={trade.won ? 'text-emerald-400' : 'text-white/10'}>
-                                                        {trade.won ? `+${trade.payout.toFixed(2)}` : `-${trade.amount.toFixed(2)}`}
+                                                        {trade.won ? `+${(parseFloat(trade.payout) || 0).toFixed(4)}` : `-${(parseFloat(trade.amount) || 0).toFixed(4)}`}
                                                     </span>
                                                 </td>
                                             </tr>

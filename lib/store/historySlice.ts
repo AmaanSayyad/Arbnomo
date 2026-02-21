@@ -65,7 +65,8 @@ export const createHistorySlice: StateCreator<HistoryState> = (set: any, get: an
                 multiplier: parseFloat(row.multiplier) || 1.9,
                 priceChange: 0,
                 direction: row.direction as 'UP' | 'DOWN',
-              }
+              },
+              network: row.network
             }));
 
             set({

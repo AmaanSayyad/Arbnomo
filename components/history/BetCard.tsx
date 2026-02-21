@@ -61,10 +61,10 @@ export const BetCard: React.FC<BetCardProps> = ({ bet, isExpanded, onToggle }) =
         </div>
 
         <div className="text-right">
-          <p className="text-white font-bold">{parseFloat(bet.amount).toFixed(4)} BNB</p>
+          <p className="text-white font-bold">{parseFloat(bet.amount).toFixed(4)} {bet.network === 'ARB' ? 'ETH' : (bet.network || 'BNB')}</p>
           {isSettled && (
             <p className={`text-sm font-semibold ${bet.won ? 'text-green-400' : 'text-red-400'}`}>
-              {bet.won ? `+${parseFloat(bet.payout).toFixed(4)}` : `-${parseFloat(bet.amount).toFixed(4)}`} BNB
+              {bet.won ? `+${parseFloat(bet.payout).toFixed(4)}` : `-${parseFloat(bet.amount).toFixed(4)}`} {bet.network === 'ARB' ? 'ETH' : (bet.network || 'BNB')}
             </p>
           )}
           {isActive && (
@@ -103,7 +103,7 @@ export const BetCard: React.FC<BetCardProps> = ({ bet, isExpanded, onToggle }) =
               <div>
                 <p className="text-gray-400 text-xs uppercase tracking-wider">Actual Change</p>
                 <p className={`text-sm font-bold ${bet.actualChange >= 0 ? 'text-green-400' : 'text-red-400'}`}>
-                  {bet.actualChange >= 0 ? '+' : ''}{bet.actualChange.toFixed(2)}
+                  {bet.actualChange >= 0 ? '+' : ''}{bet.actualChange.toFixed(4)}
                 </p>
               </div>
             )}
